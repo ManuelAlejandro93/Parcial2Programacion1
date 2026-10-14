@@ -2,9 +2,9 @@ public class Camara extends Equipo {
 	private long resolucionMaxima;
 	private boolean tieneEstabilizador;
 
-	public Camara(String marca, String modelo, String costoPorHora, CondicionEquipo condicionEquipo,
+	public Camara(String codigo, String marca, String modelo, String costoPorHora, CondicionEquipo condicionEquipo,
 			long resolucionMaxima, boolean tieneEstabilizador) {
-		super(marca, modelo, costoPorHora, condicionEquipo);
+		super(codigo, marca, modelo, costoPorHora, condicionEquipo);
 		this.resolucionMaxima = resolucionMaxima;
 		this.tieneEstabilizador = tieneEstabilizador;
 	}

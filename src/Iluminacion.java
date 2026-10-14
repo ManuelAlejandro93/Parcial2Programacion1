@@ -2,9 +2,9 @@ public class Iluminacion extends Equipo {
 	private long cantidadLuces;
 	private boolean tieneControlInalambrico;
 
-	public Iluminacion(String marca, String modelo, String costoPorHora, CondicionEquipo condicionEquipo,
+	public Iluminacion(String codigo, String marca, String modelo, String costoPorHora, CondicionEquipo condicionEquipo,
 			long cantidadLuces, boolean tieneControlInalambrico) {
-		super(marca, modelo, costoPorHora, condicionEquipo);
+		super(codigo, marca, modelo, costoPorHora, condicionEquipo);
 		this.cantidadLuces = cantidadLuces;
 		this.tieneControlInalambrico = tieneControlInalambrico;
 	}

@@ -1,14 +1,25 @@
 public class Equipo {
+	private String codigo;
+
 	private String marca;
 	private String modelo;
 	private String costoPorHora;
 	private CondicionEquipo condicionEquipo;
 
-	public Equipo(String marca, String modelo, String costoPorHora, CondicionEquipo condicionEquipo) {
+	public Equipo(String codigo, String marca, String modelo, String costoPorHora, CondicionEquipo condicionEquipo) {
+		this.codigo = codigo;
 		this.marca = marca;
 		this.modelo = modelo;
 		this.costoPorHora = costoPorHora;
 		this.condicionEquipo = condicionEquipo;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
 	}
 
 	public String getMarca() {
@@ -43,4 +54,17 @@ public class Equipo {
 		this.condicionEquipo = condicionEquipo;
 	}
 
+	@Override
+	public String toString() {
+		String mensaje = "" + "\n";
+		mensaje += "===============" + "\n";
+		mensaje += "codigo : " + this.codigo + "\n";
+		mensaje += "marca : " + this.marca + "\n";
+		mensaje += "modelo : " + this.modelo + "\n";
+		mensaje += "costoPorHora : " + this.costoPorHora + "\n";
+		mensaje += "condicionEquipo : " + this.condicionEquipo + "\n";
+		mensaje += "===============" + "\n";
+
+		return mensaje;
+	}
 }
