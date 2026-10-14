@@ -3,7 +3,7 @@ public class Dron extends Equipo {
 	private long autonomiaMin;
 	private boolean tieneBateriaAdicional;
 
-	public Dron(String codigo, String marca, String modelo, String costoPorHora, CondicionEquipo condicionEquipo,
+	public Dron(String codigo, String marca, String modelo, long costoPorHora, CondicionEquipo condicionEquipo,
 			long autonomiaMin, boolean tieneBateriaAdicional) {
 		super(codigo, marca, modelo, costoPorHora, condicionEquipo);
 		this.autonomiaMin = autonomiaMin;

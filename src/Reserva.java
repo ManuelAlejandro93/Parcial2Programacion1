@@ -6,16 +6,15 @@ public class Reserva {
 	private LocalDate fechaReserva;
 	private Turno turno;
 	private EstadoActualProceso estadoActualProceso;
-	private GestorReservasIndividuales gestorReservasIndividuales;
+	private GestorReservasIndividuales gestorReservasIndividuales = new GestorReservasIndividuales();
 
 	public Reserva(String codigo, Cliente cliente, LocalDate fechaReserva, Turno turno,
-			EstadoActualProceso estadoActualProceso, GestorReservasIndividuales gestorReservasIndividuales) {
+			EstadoActualProceso estadoActualProceso) {
 		this.codigo = codigo;
 		this.cliente = cliente;
 		this.fechaReserva = fechaReserva;
 		this.turno = turno;
 		this.estadoActualProceso = estadoActualProceso;
-		this.gestorReservasIndividuales = gestorReservasIndividuales;
 	}
 
 	public String getCodigo() {
@@ -66,4 +65,18 @@ public class Reserva {
 		this.gestorReservasIndividuales = gestorReservasIndividuales;
 	}
 
+	@Override
+	public String toString() {
+		String mensaje = "" + "\n";
+		mensaje += "===============" + "\n";
+		mensaje += "codigo : " + this.codigo + "\n";
+		mensaje += "cliente : " + this.cliente.toString() + "\n";
+		mensaje += "fechaDeReserva : " + this.fechaReserva.toString() + "\n";
+		mensaje += "turno : " + this.turno.toString() + "\n";
+		mensaje += "estadoActualProceso : " + this.estadoActualProceso.toString() + "\n";
+		mensaje += "estadoActualProceso : " + this.estadoActualProceso.toString() + "\n";
+		mensaje += "===============" + "\n";
+
+		return mensaje;
+	}
 }

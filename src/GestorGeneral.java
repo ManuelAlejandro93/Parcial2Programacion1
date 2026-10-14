@@ -4,6 +4,7 @@ public class GestorGeneral {
 	private GestorOperadores gestorOperadores = new GestorOperadores();
 	private GestorClientes gestorClientes = new GestorClientes();
 	private GestorFuncionesEspeciales gestorFuncionesEspeciales = new GestorFuncionesEspeciales();
+	private GestorReservas gestorReservas = new GestorReservas();
 
 	public GestorGeneral() {
 	}
@@ -40,4 +41,11 @@ public class GestorGeneral {
 		this.gestorFuncionesEspeciales = gestorFuncionesEspeciales;
 	}
 
+	public GestorReservas getGestorReservas() {
+		return gestorReservas;
+	}
+
+	public void setGestorReservas(GestorReservas gestorReservas) {
+		this.gestorReservas = gestorReservas;
+	}
 }

@@ -2,7 +2,7 @@ public class Iluminacion extends Equipo {
 	private long cantidadLuces;
 	private boolean tieneControlInalambrico;
 
-	public Iluminacion(String codigo, String marca, String modelo, String costoPorHora, CondicionEquipo condicionEquipo,
+	public Iluminacion(String codigo, String marca, String modelo, long costoPorHora, CondicionEquipo condicionEquipo,
 			long cantidadLuces, boolean tieneControlInalambrico) {
 		super(codigo, marca, modelo, costoPorHora, condicionEquipo);
 		this.cantidadLuces = cantidadLuces;

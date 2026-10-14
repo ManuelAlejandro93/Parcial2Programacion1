@@ -47,7 +47,7 @@ public class GestorEquipos {
 
 	// UPDATE - actualiza objeto
 	public boolean actualizarInformacionEquipo(
-			String codigo, String nuevaMarca, String nuevoModelo, String nuevoCostoPorHora,
+			String codigo, String nuevaMarca, String nuevoModelo, long nuevoCostoPorHora,
 			CondicionEquipo nuevaCondicionEquipo) {
 		Equipo equipoRecuperada = buscarEquipoPorCodigo(codigo);
 		if (equipoRecuperada == null) {

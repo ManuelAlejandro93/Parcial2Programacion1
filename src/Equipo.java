@@ -3,10 +3,10 @@ public class Equipo {
 
 	private String marca;
 	private String modelo;
-	private String costoPorHora;
+	private long costoPorHora;
 	private CondicionEquipo condicionEquipo;
 
-	public Equipo(String codigo, String marca, String modelo, String costoPorHora, CondicionEquipo condicionEquipo) {
+	public Equipo(String codigo, String marca, String modelo, long costoPorHora, CondicionEquipo condicionEquipo) {
 		this.codigo = codigo;
 		this.marca = marca;
 		this.modelo = modelo;
@@ -38,11 +38,11 @@ public class Equipo {
 		this.modelo = modelo;
 	}
 
-	public String getCostoPorHora() {
+	public long getCostoPorHora() {
 		return costoPorHora;
 	}
 
-	public void setCostoPorHora(String costoPorHora) {
+	public void setCostoPorHora(long costoPorHora) {
 		this.costoPorHora = costoPorHora;
 	}
 
