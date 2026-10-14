@@ -43,4 +43,17 @@ public class Operador {
 		this.experienciaAnios = experienciaAnios;
 	}
 
+	@Override
+	public String toString() {
+		String mensaje = "" + "\n";
+		mensaje += "===============" + "\n";
+		mensaje += "nombre : " + this.nombre + "\n";
+		mensaje += "identificacion : " + this.identificacion + "\n";
+		mensaje += "certificacion : " + this.certificacion + "\n";
+		mensaje += "experienciaAnios : " + this.experienciaAnios + "\n";
+		mensaje += "===============" + "\n";
+
+		return mensaje;
+	}
+
 }
