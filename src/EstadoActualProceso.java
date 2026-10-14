@@ -1,0 +1,3 @@
+public enum EstadoActualProceso {
+	SOLICITADA, CONFIRMADA, CANCELADA, FINALIZADA
+}
