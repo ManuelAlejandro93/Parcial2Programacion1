@@ -23,7 +23,7 @@ public class GestorReservas {
 
 	// READ (listar todas como texto, para mostrar en JOptionPane)
 	// Leer✅
-	public String mostrarTodasReservasIndividuales() {
+	public String mostrarTodasReservas() {
 		String resultado = "";
 		if (reservas == null || reservas.size() == 0) {
 			return "No hay reservas individuales registradas.";
@@ -48,13 +48,12 @@ public class GestorReservas {
 
 	// UPDATE - actualiza objeto
 	public boolean actualizarInformacionReserva(
-			String nuevoCodigo, Cliente nuevoCliente, LocalDate nuevaFechaReserva, TurnoNombre nuevoTurno,
+			String codigo, LocalDate nuevaFechaReserva, TurnoNombre nuevoTurno,
 			EstadoActualProceso nuevoEstadoActualProceso) {
-		Reserva reservaRecuperada = buscarReservaPorCodigo(nuevoCodigo);
+		Reserva reservaRecuperada = buscarReservaPorCodigo(codigo);
 		if (reservaRecuperada == null) {
 			return false;
 		}
-		reservaRecuperada.setCliente(nuevoCliente);
 		reservaRecuperada.setFechaReserva(nuevaFechaReserva);
 		reservaRecuperada.setTurno(nuevoTurno);
 		reservaRecuperada.setEstadoActualProceso(nuevoEstadoActualProceso);

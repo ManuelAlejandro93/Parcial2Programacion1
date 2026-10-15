@@ -648,11 +648,9 @@ public class Menu {
 		}
 	}
 
-	// ! voy acá 📌📌📌📌
-
 	private void listarReservas() {
-		String equipos = empresa.getGestorGeneral().getGestorEquipos().mostrarTodosEquipos();
-		JOptionPane.showMessageDialog(null, equipos);
+		String reservas = empresa.getGestorGeneral().getGestorReservas().mostrarTodasReservas();
+		JOptionPane.showMessageDialog(null, reservas);
 	}
 
 	private void buscarReservaPorCodigo() {
@@ -660,64 +658,57 @@ public class Menu {
 		if (codigo == null)
 			return;
 
-		Equipo equipo = empresa.getGestorGeneral().getGestorEquipos().buscarEquipoPorCodigo(codigo);
-		if (equipo != null) {
-			JOptionPane.showMessageDialog(null, equipo.toString());
+		Reserva reserva = empresa.getGestorGeneral().getGestorReservas().buscarReservaPorCodigo(codigo);
+		if (reserva != null) {
+			JOptionPane.showMessageDialog(null, reserva.toString());
 		} else {
-			JOptionPane.showMessageDialog(null, "Equipo no encontrado.");
+			JOptionPane.showMessageDialog(null, "Reserva no encontrado.");
 		}
 	}
 
-	private void actualizarReserva() {
-		// String codigo,✅
-		// String marca,✅
-		// String modelo,✅
-		// long costoPorHora,
-		// CondicionEquipo condicionEquipo
+	// ! voy acá 📌📌📌📌
 
-		String codigo = JOptionPane.showInputDialog(null, "Ingrese codigo del equipo a actualizar:");
+	private void actualizarReserva() {
+		// String Codigo✅
+		// LocalDate nuevaFechaReserva✅
+		// TurnoNombre nuevoTurno✅
+		// EstadoActualProceso nuevoEstadoActualProceso
+
+		String codigo = JOptionPane.showInputDialog(null, "Ingrese codigo de la reserva a actualizar:");
 		if (codigo == null)
 			return;
 
-		String nuevaMarca = JOptionPane.showInputDialog(null, "Ingrese nuevo marca:");
-		if (nuevaMarca == null)
+		String nuevaFechaDeReserva = JOptionPane.showInputDialog(null, "Ingrese nueva fecha de reserva (yyyy-MM-dd):");
+		if (nuevaFechaDeReserva == null)
 			return;
 
-		String nuevoModelo = JOptionPane.showInputDialog(null, "Ingrese nuevo modelo:");
-		if (nuevoModelo == null)
-			return;
+		LocalDate nuevaFechaReservaDate = LocalDate.parse(nuevaFechaDeReserva, formato);
 
-		String nuevoCostoPorHora = JOptionPane.showInputDialog(null, "Ingrese nuevo costo por hora:");
+		TurnoNombre nuevoTurno = ingresarTurno();
 
-		if (nuevoCostoPorHora == null || nuevoCostoPorHora.trim().isEmpty()) {
-			return;
-		}
+		EstadoActualProceso nuevoEstadoActualProceso = ingresarEstadoActualProceso();
 
-		long nuevoCostoPorHoraLong = Long.parseLong(nuevoCostoPorHora);
-
-		CondicionEquipo nuevaCondicionEquipo = ingresarCondicionEquipo();
-
-		boolean resultado = empresa.getGestorGeneral().getGestorEquipos().actualizarInformacionEquipo(codigo, nuevaMarca,
-				nuevoModelo, nuevoCostoPorHoraLong, nuevaCondicionEquipo);
+		boolean resultado = empresa.getGestorGeneral().getGestorReservas().actualizarInformacionReserva(codigo,
+				nuevaFechaReservaDate, nuevoTurno, nuevoEstadoActualProceso);
 
 		if (resultado) {
-			JOptionPane.showMessageDialog(null, "Equipo actualizado exitosamente.");
+			JOptionPane.showMessageDialog(null, "Reserva actualizada exitosamente.");
 		} else {
-			JOptionPane.showMessageDialog(null, "Equipo no encontrado.");
+			JOptionPane.showMessageDialog(null, "Reserva no encontrada.");
 		}
 	}
 
 	private void eliminarReserva() {
-		String codigo = JOptionPane.showInputDialog(null, "Ingrese codigo del equipo a eliminar:");
+		String codigo = JOptionPane.showInputDialog(null, "Ingrese codigo del reserva a eliminar:");
 		if (codigo == null)
 			return;
 
-		boolean resultado = empresa.getGestorGeneral().getGestorEquipos().eliminarEquipo(codigo);
+		boolean resultado = empresa.getGestorGeneral().getGestorReservas().eliminarReserva(codigo);
 
 		if (resultado) {
-			JOptionPane.showMessageDialog(null, "Equipo eliminado exitosamente.");
+			JOptionPane.showMessageDialog(null, "Reserva eliminado exitosamente.");
 		} else {
-			JOptionPane.showMessageDialog(null, "Equipo no encontrado.");
+			JOptionPane.showMessageDialog(null, "Reserva no encontrado.");
 		}
 	}
 
