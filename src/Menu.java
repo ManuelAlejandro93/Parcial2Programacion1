@@ -527,40 +527,163 @@ public class Menu {
 	}
 
 	// ==================== MENÚ RESERVAS ====================
-	private void crearOperar() {
-		// private String nombre;✅
-		// private String identificacion;✅
-		// private String certificacion;✅
-		// private int experienciaAnios;
 
-		String nombre = JOptionPane.showInputDialog(null, "Ingrese nombre:");
-		if (nombre == null)
+	private void menuReservas() {
+		boolean continuar = true;
+		while (continuar) {
+			String opciones = "=== GESTIÓN DE RESERVAS ===\n\n"
+					+ "1. Crear Reserva\n"
+					+ "2. Listar Reservas\n"
+					+ "3. Buscar reservas por codigo\n"
+					+ "4. Actualizar reserva\n"
+					+ "5. Eliminar reserva\n"
+					+ "6. Volver al Menú Principal\n\n"
+					+ "Seleccione una opción:";
+
+			String opcion = JOptionPane.showInputDialog(null, opciones);
+
+			if (opcion == null) {
+				continuar = false;
+				break;
+			}
+
+			switch (opcion) {
+				case "1":
+					crearReserva();
+					break;
+				case "2":
+					listarReservas();
+					break;
+				case "3":
+					buscarReservaPorCodigo();
+					break;
+				case "4":
+					actualizarReserva();
+					break;
+				case "5":
+					eliminarReserva();
+					break;
+				case "6":
+					continuar = false;
+					break;
+				default:
+					JOptionPane.showMessageDialog(null, "Opción inválida. Intente nuevamente.");
+			}
+		}
+	}
+
+	// voy acá 📌
+	private void crearReserva() {
+		// String codigo;✅
+		// Cliente cliente;
+		// LocalDate fechaReserva;
+		// Turno turno;
+		// EstadoActualProceso estadoActualProceso;
+
+		String codigo = JOptionPane.showInputDialog(null, "Ingrese codigo:");
+		if (codigo == null)
 			return;
 
-		String identificacion = JOptionPane.showInputDialog(null, "Ingrese identificacion:");
-		if (identificacion == null)
+		//
+		// ingresar un cliente
+		//
+		String marca = JOptionPane.showInputDialog(null, "Ingrese marca:");
+		if (marca == null)
 			return;
 
-		String certificacion = JOptionPane.showInputDialog(null, "Ingrese certificacion:");
-		if (certificacion == null)
+		String modelo = JOptionPane.showInputDialog(null, "Ingrese modelo:");
+		if (modelo == null)
 			return;
 
-		String aniosExperiencia = JOptionPane.showInputDialog(null, "Ingrese años de experiencia:");
+		String costoPorHora = JOptionPane.showInputDialog(null, "Ingrese costo por hora:");
 
-		if (aniosExperiencia == null || aniosExperiencia.trim().isEmpty()) {
+		if (costoPorHora == null || costoPorHora.trim().isEmpty()) {
 			return;
 		}
 
-		Integer aniosExperienciaInt = Integer.parseInt(aniosExperiencia);
+		long costoPorHoraLong = Long.parseLong(costoPorHora);
 
-		Operador nuevoOperador = new Operador(nombre, identificacion, certificacion, aniosExperienciaInt);
+		CondicionEquipo condicionEquipo = ingresarCondicionEquipo();
 
-		boolean resultado = empresa.getGestorGeneral().getGestorOperadores().anadirOperador(nuevoOperador);
+		Equipo nuevoEquipo = new Equipo(codigo, marca, modelo, costoPorHoraLong, condicionEquipo);
+
+		boolean resultado = empresa.getGestorGeneral().getGestorEquipos().anadirEquipo(nuevoEquipo);
 
 		if (resultado) {
-			JOptionPane.showMessageDialog(null, "Operador creado exitosamente.");
+			JOptionPane.showMessageDialog(null, "Equipo creado exitosamente.");
 		} else {
-			JOptionPane.showMessageDialog(null, "No se pudo crear el Operador");
+			JOptionPane.showMessageDialog(null, "No se pudo crear el equipo");
+		}
+	}
+
+	private void listarReservas() {
+		String equipos = empresa.getGestorGeneral().getGestorEquipos().mostrarTodosEquipos();
+		JOptionPane.showMessageDialog(null, equipos);
+	}
+
+	private void buscarReservaPorCodigo() {
+		String codigo = JOptionPane.showInputDialog(null, "Ingrese codigo:");
+		if (codigo == null)
+			return;
+
+		Equipo equipo = empresa.getGestorGeneral().getGestorEquipos().buscarEquipoPorCodigo(codigo);
+		if (equipo != null) {
+			JOptionPane.showMessageDialog(null, equipo.toString());
+		} else {
+			JOptionPane.showMessageDialog(null, "Equipo no encontrado.");
+		}
+	}
+
+	private void actualizarReserva() {
+		// String codigo,✅
+		// String marca,✅
+		// String modelo,✅
+		// long costoPorHora,
+		// CondicionEquipo condicionEquipo
+
+		String codigo = JOptionPane.showInputDialog(null, "Ingrese codigo del equipo a actualizar:");
+		if (codigo == null)
+			return;
+
+		String nuevaMarca = JOptionPane.showInputDialog(null, "Ingrese nuevo marca:");
+		if (nuevaMarca == null)
+			return;
+
+		String nuevoModelo = JOptionPane.showInputDialog(null, "Ingrese nuevo modelo:");
+		if (nuevoModelo == null)
+			return;
+
+		String nuevoCostoPorHora = JOptionPane.showInputDialog(null, "Ingrese nuevo costo por hora:");
+
+		if (nuevoCostoPorHora == null || nuevoCostoPorHora.trim().isEmpty()) {
+			return;
+		}
+
+		long nuevoCostoPorHoraLong = Long.parseLong(nuevoCostoPorHora);
+
+		CondicionEquipo nuevaCondicionEquipo = ingresarCondicionEquipo();
+
+		boolean resultado = empresa.getGestorGeneral().getGestorEquipos().actualizarInformacionEquipo(codigo, nuevaMarca,
+				nuevoModelo, nuevoCostoPorHoraLong, nuevaCondicionEquipo);
+
+		if (resultado) {
+			JOptionPane.showMessageDialog(null, "Equipo actualizado exitosamente.");
+		} else {
+			JOptionPane.showMessageDialog(null, "Equipo no encontrado.");
+		}
+	}
+
+	private void eliminarReserva() {
+		String codigo = JOptionPane.showInputDialog(null, "Ingrese codigo del equipo a eliminar:");
+		if (codigo == null)
+			return;
+
+		boolean resultado = empresa.getGestorGeneral().getGestorEquipos().eliminarEquipo(codigo);
+
+		if (resultado) {
+			JOptionPane.showMessageDialog(null, "Equipo eliminado exitosamente.");
+		} else {
+			JOptionPane.showMessageDialog(null, "Equipo no encontrado.");
 		}
 	}
 }
