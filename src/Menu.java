@@ -566,6 +566,7 @@ public class Menu {
 					+ "7. Asignar cliente a reserva\n"
 					+ "8. Asignar operador a reserva\n"
 					+ "9. Cambiar estado de reserva\n"
+					+ "10. Consultar Reservas Confirmadas por Cliente\n"
 					+ "0. Volver al Menú Principal\n\n"
 					+ "Seleccione una opción:";
 
@@ -603,6 +604,9 @@ public class Menu {
 					break;
 				case "9":
 					cambiarEstadoReserva();
+					break;
+				case "10":
+					consultarReservasConfirmadasCliente();
 					break;
 				case "0":
 					continuar = false;
@@ -1093,6 +1097,17 @@ public class Menu {
 		} else {
 			JOptionPane.showMessageDialog(null, "No se pudo cambiar el estado de la reserva.");
 		}
+	}
+
+	private void consultarReservasConfirmadasCliente() {
+		String cedulaCliente = JOptionPane.showInputDialog(null, "Ingrese cédula del cliente:");
+		if (cedulaCliente == null)
+			return;
+
+		String reservasConfirmadas = empresa.getGestorGeneral().getGestorReservas()
+				.obtenerReservasConfirmadasPorCliente(cedulaCliente);
+
+		JOptionPane.showMessageDialog(null, reservasConfirmadas);
 	}
 
 }

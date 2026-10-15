@@ -187,4 +187,31 @@ public class GestorReservas {
 		}
 		return false; // Equipo no está confirmado
 	}
+
+	public String obtenerReservasConfirmadasPorCliente(String cedulaCliente) {
+		String resultado = "";
+
+		if (reservas == null || reservas.size() == 0) {
+			return "No hay reservas registradas.";
+		}
+
+		for (Reserva reserva : reservas) {
+			// VALIDACIÓN 1: ¿La reserva está confirmada?
+			if (reserva.getEstadoActualProceso() != EstadoActualProceso.CONFIRMADA) {
+				continue; // Saltar esta reserva
+			}
+
+			// VALIDACIÓN 2: ¿El cliente de la reserva coincide?
+			if (reserva.getCliente() != null &&
+					reserva.getCliente().cedula().equalsIgnoreCase(cedulaCliente)) {
+				resultado += reserva.toString() + "\n";
+			}
+		}
+
+		if (resultado.isEmpty()) {
+			return "No hay reservas confirmadas para este cliente.";
+		}
+
+		return resultado;
+	}
 }
