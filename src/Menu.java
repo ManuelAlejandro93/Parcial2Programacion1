@@ -567,6 +567,7 @@ public class Menu {
 					+ "8. Asignar operador a reserva\n"
 					+ "9. Cambiar estado de reserva\n"
 					+ "10. Consultar Reservas Confirmadas por Cliente\n"
+					+ "11. Consultar Valor Total de Reserva\n"
 					+ "0. Volver al Menú Principal\n\n"
 					+ "Seleccione una opción:";
 
@@ -607,6 +608,9 @@ public class Menu {
 					break;
 				case "10":
 					consultarReservasConfirmadasCliente();
+					break;
+				case "11":
+					consultarValorTotalReserva();
 					break;
 				case "0":
 					continuar = false;
@@ -1108,6 +1112,27 @@ public class Menu {
 				.obtenerReservasConfirmadasPorCliente(cedulaCliente);
 
 		JOptionPane.showMessageDialog(null, reservasConfirmadas);
+	}
+
+	private void consultarValorTotalReserva() {
+		String codigoReserva = JOptionPane.showInputDialog(null, "Ingrese código de la reserva:");
+		if (codigoReserva == null)
+			return;
+
+		Reserva reserva = empresa.getGestorGeneral().getGestorReservas().buscarReservaPorCodigo(codigoReserva);
+		if (reserva == null) {
+			JOptionPane.showMessageDialog(null, "Reserva no encontrada.");
+			return;
+		}
+
+		long valorTotal = empresa.getGestorGeneral().getGestorReservas().obtenerValorTotalReserva(codigoReserva);
+
+		if (valorTotal == 0) {
+			JOptionPane.showMessageDialog(null, "Reserva no encontrada.");
+			return;
+		}
+
+		JOptionPane.showMessageDialog(null, "Valor total de la reserva: $" + valorTotal);
 	}
 
 }

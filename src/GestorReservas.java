@@ -214,4 +214,14 @@ public class GestorReservas {
 
 		return resultado;
 	}
+
+	public long obtenerValorTotalReserva(String codigoReserva) {
+		Reserva reserva = buscarReservaPorCodigo(codigoReserva);
+
+		if (reserva == null) {
+			return 0; // Reserva no existe
+		}
+
+		return reserva.obtenerValorTotal();
+	}
 }
