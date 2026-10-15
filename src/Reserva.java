@@ -69,7 +69,7 @@ public class Reserva {
 		String mensaje = "" + "\n";
 		mensaje += "===============" + "\n";
 		mensaje += "codigo : " + this.codigo + "\n";
-		mensaje += "cliente : " + this.cliente.toString() + "\n";
+		mensaje += "cliente : " + (this.cliente != null ? this.cliente.toString() : "Sin cliente") + "\n";
 		mensaje += "fechaDeReserva : " + this.fechaReserva.toString() + "\n";
 		mensaje += "turno : " + this.turno.toString() + "\n";
 		mensaje += "estadoActualProceso : " + this.estadoActualProceso.toString() + "\n";

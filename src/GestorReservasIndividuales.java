@@ -46,7 +46,7 @@ public class GestorReservasIndividuales {
 	}
 
 	// UPDATE - actualiza objeto
-	public boolean actualizarInformacionReservaInividual(
+	public boolean actualizarInformacionReservaIndividual(
 			String codigo, Equipo nuevoEquipo, long nuevasHorasDeTrabajo) {
 		ReservaIndividualPorEquipo reservaRecuperada = buscarReservaIndividualPorCodigo(codigo);
 		if (reservaRecuperada == null) {
