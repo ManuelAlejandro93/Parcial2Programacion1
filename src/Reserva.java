@@ -4,11 +4,11 @@ public class Reserva {
 	private String codigo;
 	private Cliente cliente;
 	private LocalDate fechaReserva;
-	private Turno turno;
+	private TurnoNombre turno;
 	private EstadoActualProceso estadoActualProceso;
 	private GestorReservasIndividuales gestorReservasIndividuales = new GestorReservasIndividuales();
 
-	public Reserva(String codigo, LocalDate fechaReserva, Turno turno,
+	public Reserva(String codigo, LocalDate fechaReserva, TurnoNombre turno,
 			EstadoActualProceso estadoActualProceso) {
 		this.codigo = codigo;
 		this.fechaReserva = fechaReserva;
@@ -40,11 +40,11 @@ public class Reserva {
 		this.fechaReserva = fechaReserva;
 	}
 
-	public Turno getTurno() {
+	public TurnoNombre getTurno() {
 		return turno;
 	}
 
-	public void setTurno(Turno turno) {
+	public void setTurno(TurnoNombre turno) {
 		this.turno = turno;
 	}
 

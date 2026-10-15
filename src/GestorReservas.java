@@ -48,7 +48,7 @@ public class GestorReservas {
 
 	// UPDATE - actualiza objeto
 	public boolean actualizarInformacionReserva(
-			String nuevoCodigo, Cliente nuevoCliente, LocalDate nuevaFechaReserva, Turno nuevoTurno,
+			String nuevoCodigo, Cliente nuevoCliente, LocalDate nuevaFechaReserva, TurnoNombre nuevoTurno,
 			EstadoActualProceso nuevoEstadoActualProceso) {
 		Reserva reservaRecuperada = buscarReservaPorCodigo(nuevoCodigo);
 		if (reservaRecuperada == null) {

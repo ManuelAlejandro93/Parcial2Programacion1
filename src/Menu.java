@@ -576,14 +576,13 @@ public class Menu {
 		// String codigo;✅
 		// Cliente cliente; ❌se puede crear una reserva sin cliente.
 		// LocalDate fechaReserva;✅
-		// Turno turno;
+		// TurnoNombre turno;
 		// EstadoActualProceso estadoActualProceso;✅
 
 		String codigo = JOptionPane.showInputDialog(null, "Ingrese codigo:");
 		if (codigo == null)
 			return;
 
-		// ! voy acá 📌📌📌📌
 		String fechaDeReserva = JOptionPane.showInputDialog(null, "Ingrese fecha de reserva (yyyy-MM-dd):");
 		if (fechaDeReserva == null)
 			return;
@@ -592,37 +591,37 @@ public class Menu {
 
 		EstadoActualProceso estadoActualProceso = ingresarEstadoActualProceso();
 
-		Reserva nuevoEquipo = new Reserva();
+		TurnoNombre turno = ingresarTurno();
 
-		boolean resultado = empresa.getGestorGeneral().getGestorEquipos().anadirEquipo(nuevoEquipo);
+		Reserva nuevaReserva = new Reserva(codigo, fechaReservaDate, turno, estadoActualProceso);
+
+		boolean resultado = empresa.getGestorGeneral().getGestorReservas().anadirReserva(nuevaReserva);
 
 		if (resultado) {
-			JOptionPane.showMessageDialog(null, "Equipo creado exitosamente.");
+			JOptionPane.showMessageDialog(null, "Reserva creado exitosamente.");
 		} else {
-			JOptionPane.showMessageDialog(null, "No se pudo crear el equipo");
+			JOptionPane.showMessageDialog(null, "No se pudo crear la Reserva");
 		}
 	}
 
 	// Ingresar estado actual proceso
-	public EstadoActualProceso ingresarTurno() {
+	public TurnoNombre ingresarTurno() {
 		String mensaje = "Seleccione un turno de reserva posible: \n\n"
-				+ "1. SOLICITADA\n"
-				+ "2. CONFIRMADA\n"
-				+ "3. CANCELADA\n"
-				+ "4. FINALIZADA\n\n";
-		String estadoActual = JOptionPane.showInputDialog(null, mensaje);
+				+ "1. MAÑANA\n"
+				+ "2. TARDE\n"
+				+ "3. NOCHE\n\n";
+		String turno = JOptionPane.showInputDialog(null, mensaje);
 
-		switch (estadoActual) {
+		switch (turno) {
 			case "1":
-				return EstadoActualProceso.SOLICITADA;
+				return TurnoNombre.MANANIA;
 			case "2":
-				return EstadoActualProceso.CONFIRMADA;
+				return TurnoNombre.TARDE;
 			case "3":
-				return EstadoActualProceso.CANCELADA;
-			case "4":
-				return EstadoActualProceso.FINALIZADA;
+				return TurnoNombre.NOCHE;
+
 			default:
-				return EstadoActualProceso.SOLICITADA;
+				return TurnoNombre.MANANIA;
 		}
 	}
 
@@ -648,6 +647,8 @@ public class Menu {
 				return EstadoActualProceso.SOLICITADA;
 		}
 	}
+
+	// ! voy acá 📌📌📌📌
 
 	private void listarReservas() {
 		String equipos = empresa.getGestorGeneral().getGestorEquipos().mostrarTodosEquipos();
