@@ -572,40 +572,27 @@ public class Menu {
 		}
 	}
 
-	// voy acá 📌
 	private void crearReserva() {
 		// String codigo;✅
-		// Cliente cliente;
-		// LocalDate fechaReserva;
+		// Cliente cliente; ❌se puede crear una reserva sin cliente.
+		// LocalDate fechaReserva;✅
 		// Turno turno;
-		// EstadoActualProceso estadoActualProceso;
+		// EstadoActualProceso estadoActualProceso;✅
 
 		String codigo = JOptionPane.showInputDialog(null, "Ingrese codigo:");
 		if (codigo == null)
 			return;
 
-		//
-		// ingresar un cliente
-		//
-		String marca = JOptionPane.showInputDialog(null, "Ingrese marca:");
-		if (marca == null)
+		// ! voy acá 📌📌📌📌
+		String fechaDeReserva = JOptionPane.showInputDialog(null, "Ingrese fecha de reserva (yyyy-MM-dd):");
+		if (fechaDeReserva == null)
 			return;
 
-		String modelo = JOptionPane.showInputDialog(null, "Ingrese modelo:");
-		if (modelo == null)
-			return;
+		LocalDate fechaReservaDate = LocalDate.parse(fechaDeReserva, formato);
 
-		String costoPorHora = JOptionPane.showInputDialog(null, "Ingrese costo por hora:");
+		EstadoActualProceso estadoActualProceso = ingresarEstadoActualProceso();
 
-		if (costoPorHora == null || costoPorHora.trim().isEmpty()) {
-			return;
-		}
-
-		long costoPorHoraLong = Long.parseLong(costoPorHora);
-
-		CondicionEquipo condicionEquipo = ingresarCondicionEquipo();
-
-		Equipo nuevoEquipo = new Equipo(codigo, marca, modelo, costoPorHoraLong, condicionEquipo);
+		Reserva nuevoEquipo = new Reserva();
 
 		boolean resultado = empresa.getGestorGeneral().getGestorEquipos().anadirEquipo(nuevoEquipo);
 
@@ -613,6 +600,52 @@ public class Menu {
 			JOptionPane.showMessageDialog(null, "Equipo creado exitosamente.");
 		} else {
 			JOptionPane.showMessageDialog(null, "No se pudo crear el equipo");
+		}
+	}
+
+	// Ingresar estado actual proceso
+	public EstadoActualProceso ingresarTurno() {
+		String mensaje = "Seleccione un turno de reserva posible: \n\n"
+				+ "1. SOLICITADA\n"
+				+ "2. CONFIRMADA\n"
+				+ "3. CANCELADA\n"
+				+ "4. FINALIZADA\n\n";
+		String estadoActual = JOptionPane.showInputDialog(null, mensaje);
+
+		switch (estadoActual) {
+			case "1":
+				return EstadoActualProceso.SOLICITADA;
+			case "2":
+				return EstadoActualProceso.CONFIRMADA;
+			case "3":
+				return EstadoActualProceso.CANCELADA;
+			case "4":
+				return EstadoActualProceso.FINALIZADA;
+			default:
+				return EstadoActualProceso.SOLICITADA;
+		}
+	}
+
+	// Ingresar estado actual del proceso
+	public EstadoActualProceso ingresarEstadoActualProceso() {
+		String mensaje = "Seleccione un estado actual de proceso de reserva posible: \n\n"
+				+ "1. SOLICITADA\n"
+				+ "2. CONFIRMADA\n"
+				+ "3. CANCELADA\n"
+				+ "4. FINALIZADA\n\n";
+		String estadoActual = JOptionPane.showInputDialog(null, mensaje);
+
+		switch (estadoActual) {
+			case "1":
+				return EstadoActualProceso.SOLICITADA;
+			case "2":
+				return EstadoActualProceso.CONFIRMADA;
+			case "3":
+				return EstadoActualProceso.CANCELADA;
+			case "4":
+				return EstadoActualProceso.FINALIZADA;
+			default:
+				return EstadoActualProceso.SOLICITADA;
 		}
 	}
 
@@ -686,4 +719,5 @@ public class Menu {
 			JOptionPane.showMessageDialog(null, "Equipo no encontrado.");
 		}
 	}
+
 }

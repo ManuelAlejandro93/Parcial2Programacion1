@@ -8,10 +8,9 @@ public class Reserva {
 	private EstadoActualProceso estadoActualProceso;
 	private GestorReservasIndividuales gestorReservasIndividuales = new GestorReservasIndividuales();
 
-	public Reserva(String codigo, Cliente cliente, LocalDate fechaReserva, Turno turno,
+	public Reserva(String codigo, LocalDate fechaReserva, Turno turno,
 			EstadoActualProceso estadoActualProceso) {
 		this.codigo = codigo;
-		this.cliente = cliente;
 		this.fechaReserva = fechaReserva;
 		this.turno = turno;
 		this.estadoActualProceso = estadoActualProceso;
