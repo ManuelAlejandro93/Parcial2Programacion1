@@ -34,7 +34,6 @@ public class GestorClientes {
 		return resultado;
 	}
 
-	// !voy acá
 	// READ (buscar por id) devuelve objeto o null
 	public Cliente buscarClientePorCedula(String cedula) {
 		Cliente resultado = null;

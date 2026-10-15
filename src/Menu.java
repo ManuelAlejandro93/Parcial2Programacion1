@@ -381,8 +381,6 @@ public class Menu {
 		}
 	}
 
-	// ! 📌 Voy Acá 📌
-
 	// ==================== MENÚ CLIENTES ====================
 	private void menuClientes() {
 		boolean continuar = true;
@@ -391,8 +389,7 @@ public class Menu {
 					+ "1. Crear Cliente\n"
 					+ "2. Listar Clientes\n"
 					+ "3. Buscar Cliente por Código\n"
-					+ "4. Actualizar Cliente\n"
-					+ "5. Eliminar Cliente\n"
+					+ "4. Eliminar Cliente\n"
 					+ "6. Volver al Menú Principal\n\n"
 					+ "Seleccione una opción:";
 
@@ -408,7 +405,7 @@ public class Menu {
 					crearCliente();
 					break;
 				case "2":
-					listarCliente();
+					listarClientes();
 					break;
 				case "3":
 					buscarClientePorCodigo();
@@ -428,65 +425,61 @@ public class Menu {
 		}
 	}
 
-	// ! 📌 Voy Acá 📌
-
 	private void crearCliente() {
-		String codigo = JOptionPane.showInputDialog(null, "Ingrese código del servicio:");
-		if (codigo == null)
-			return;
 
-		String nombre = JOptionPane.showInputDialog(null, "Ingrese nombre del servicio:");
+		// String nombre x
+		// String cedula x
+		// String telefono x
+		// String correo x
+
+		String nombre = JOptionPane.showInputDialog(null, "Ingrese nombre:");
 		if (nombre == null)
 			return;
 
-		String descripcion = JOptionPane.showInputDialog(null, "Ingrese descripción:");
-		if (descripcion == null)
+		String cedula = JOptionPane.showInputDialog(null, "Ingrese cedula:");
+		if (cedula == null)
 			return;
 
-		String precio = JOptionPane.showInputDialog(null, "Ingrese precio:");
-		if (precio == null)
+		String telefono = JOptionPane.showInputDialog(null, "Ingrese telefono:");
+		if (telefono == null)
 			return;
 
-		String disponible = JOptionPane.showInputDialog(null, "¿Disponible? (true/false):");
-		if (disponible == null)
+		String correo = JOptionPane.showInputDialog(null, "Ingrese correo:");
+		if (correo == null)
 			return;
 
-		try {
-			double precioServicio = Double.parseDouble(precio);
-			boolean estaDisponible = Boolean.parseBoolean(disponible);
+		Cliente nuevoCliente = new Cliente(nombre, cedula, telefono, correo);
 
-			ServicioAdicional nuevoServicio = new ServicioAdicional(codigo, nombre, descripcion, precioServicio,
-					estaDisponible);
-			boolean resultado = empresa.getGestorGeneral().getGestorServicios().crear(nuevoServicio);
+		boolean resultado = empresa.getGestorGeneral().getGestorClientes().anadirCliente(nuevoCliente);
 
-			if (resultado) {
-				JOptionPane.showMessageDialog(null, "Servicio creado exitosamente.");
-			} else {
-				JOptionPane.showMessageDialog(null, "No se pudo crear el servicio. Límite alcanzado.");
-			}
-		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(null, "Error: Ingrese números válidos.");
-		}
-	}
-
-	private void listarCliente() {
-		String servicios = empresa.getGestorGeneral().getGestorServicios().mostrarServicios();
-		JOptionPane.showMessageDialog(null, servicios);
-	}
-
-	private void buscarClientePorCodigo() {
-		String codigo = JOptionPane.showInputDialog(null, "Ingrese código a buscar:");
-		if (codigo == null)
-			return;
-
-		ServicioAdicional servicio = empresa.getGestorGeneral().getGestorServicios().buscarServicioPorCodigo(codigo);
-		if (servicio != null) {
-			JOptionPane.showMessageDialog(null, servicio.toString());
+		if (resultado) {
+			JOptionPane.showMessageDialog(null, "Cliente creado exitosamente.");
 		} else {
-			JOptionPane.showMessageDialog(null, "Servicio no encontrado.");
+			JOptionPane.showMessageDialog(null, "No se pudo crear el Cliente.");
+		}
+
+	}
+
+	private void listarClientes() {
+		String proyectos = empresa.getGestorGeneral().getGestorClientes().mostrarTodosClientes();
+		JOptionPane.showMessageDialog(null, proyectos);
+	}
+
+	// No se puede actualizar cliente por requisito del sistema
+	private void buscarClientePorCodigo() {
+		String cedula = JOptionPane.showInputDialog(null, "Ingrese cédula del cliente a buscar:");
+		if (cedula == null)
+			return;
+
+		Cliente cliente = empresa.getGestorGeneral().getGestorClientes().buscarClientePorCedula(cedula);
+		if (cliente != null) {
+			JOptionPane.showMessageDialog(null, cliente.toString());
+		} else {
+			JOptionPane.showMessageDialog(null, "Cliente no encontrado.");
 		}
 	}
 
+	// ! 📌 Voy Acá 📌
 	private void actualizarCliente() {
 		String codigo = JOptionPane.showInputDialog(null, "Ingrese código del servicio:");
 		if (codigo == null)
