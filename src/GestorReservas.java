@@ -109,6 +109,11 @@ public class GestorReservas {
 			return false; // Tiene dron pero no operador
 		}
 
+		// VALIDACIÓN 3: ¿Puede ser confirmada según su estado?
+		if (!reserva.puedeSerConfirmada()) {
+			return false; // Está cancelada o finalizada
+		}
+
 		// Si pasa las validaciones, cambiar estado a CONFIRMADA
 		reserva.setEstadoActualProceso(EstadoActualProceso.CONFIRMADA);
 		return true;

@@ -106,6 +106,11 @@ public class Reserva {
 		return true;
 	}
 
+	public boolean puedeSerConfirmada() {
+		return !(estadoActualProceso == EstadoActualProceso.CANCELADA ||
+				estadoActualProceso == EstadoActualProceso.FINALIZADA);
+	}
+
 	@Override
 	public String toString() {
 		String mensaje = "" + "\n";
