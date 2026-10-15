@@ -20,6 +20,7 @@ public class Menu {
 					+ "3. Gestionar Clientes\n"
 					+ "4. Gestionar Funciones Especiales\n"
 					+ "5. Gestionar Reservas\n"
+					+ "6. Gestionar Reservas Individuales\n"
 					+ "0. Salir\n\n"
 					+ "Seleccione una opción:";
 
@@ -45,7 +46,9 @@ public class Menu {
 				case "5":
 					menuReservas();
 					break;
-
+				case "6":
+					menuReservasIndividuales();
+					break;
 				case "0":
 					JOptionPane.showMessageDialog(null, "¡Gracias por usar el sistema!");
 					continuar = false;
@@ -713,4 +716,150 @@ public class Menu {
 		}
 	}
 
+	// ==================== MENÚ RESERVAS INDIVIDUALES ====================
+	private void menuReservasIndividuales() {
+		boolean continuar = true;
+		while (continuar) {
+			String opciones = "=== GESTIÓN DE RESERVAS INDIVIDUALES POR EQUIPO ===\n\n"
+					+ "1. Crear Reserva Individual\n"
+					+ "2. Listar Reservas Individuales\n"
+					+ "3. Buscar Reserva Individual por Código\n"
+					+ "4. Actualizar Reserva Individual\n"
+					+ "5. Eliminar Reserva Individual\n"
+					+ "6. Volver al Menú Principal\n\n"
+					+ "Seleccione una opción:";
+
+			String opcion = JOptionPane.showInputDialog(null, opciones);
+
+			if (opcion == null) {
+				continuar = false;
+				break;
+			}
+
+			switch (opcion) {
+				case "1":
+					crearReservaIndividual();
+					break;
+				case "2":
+					listarReservasIndividuales();
+					break;
+				case "3":
+					buscarReservaIndividualPorCodigo();
+					break;
+				case "4":
+					actualizarReservaIndividual();
+					break;
+				case "5":
+					eliminarReservaIndividual();
+					break;
+				case "6":
+					continuar = false;
+					break;
+				default:
+					JOptionPane.showMessageDialog(null, "Opción inválida. Intente nuevamente.");
+			}
+		}
+	}
+
+	private void crearReservaIndividual() {
+		String codigo = JOptionPane.showInputDialog(null, "Ingrese código de la reserva individual:");
+		if (codigo == null)
+			return;
+
+		String codigoEquipo = JOptionPane.showInputDialog(null, "Ingrese código del equipo:");
+		if (codigoEquipo == null)
+			return;
+
+		Equipo equipo = empresa.getGestorGeneral().getGestorEquipos().buscarEquipoPorCodigo(codigoEquipo);
+		if (equipo == null) {
+			JOptionPane.showMessageDialog(null, "Equipo no encontrado.");
+			return;
+		}
+
+		String horasDeTrabajo = JOptionPane.showInputDialog(null, "Ingrese horas de trabajo:");
+		if (horasDeTrabajo == null || horasDeTrabajo.trim().isEmpty()) {
+			return;
+		}
+
+		long horasDeTrabajoLong = Long.parseLong(horasDeTrabajo);
+
+		ReservaIndividualPorEquipo nuevaReservaIndividual = new ReservaIndividualPorEquipo(codigo, equipo,
+				horasDeTrabajoLong);
+
+		boolean resultado = empresa.getGestorGeneral().getGestorReservasIndividuales()
+				.anadirReservaIndividual(nuevaReservaIndividual);
+
+		if (resultado) {
+			JOptionPane.showMessageDialog(null, "Reserva individual creada exitosamente.");
+		} else {
+			JOptionPane.showMessageDialog(null, "No se pudo crear la reserva individual.");
+		}
+	}
+
+	private void listarReservasIndividuales() {
+		String reservasIndividuales = empresa.getGestorGeneral().getGestorReservasIndividuales()
+				.mostrarTodasReservasIndividuales();
+		JOptionPane.showMessageDialog(null, reservasIndividuales);
+	}
+
+	private void buscarReservaIndividualPorCodigo() {
+		String codigo = JOptionPane.showInputDialog(null, "Ingrese código:");
+		if (codigo == null)
+			return;
+
+		ReservaIndividualPorEquipo reservaIndividual = empresa.getGestorGeneral().getGestorReservasIndividuales()
+				.buscarReservaIndividualPorCodigo(codigo);
+		if (reservaIndividual != null) {
+			JOptionPane.showMessageDialog(null, reservaIndividual.toString());
+		} else {
+			JOptionPane.showMessageDialog(null, "Reserva individual no encontrada.");
+		}
+	}
+
+	private void actualizarReservaIndividual() {
+		String codigo = JOptionPane.showInputDialog(null, "Ingrese código de la reserva individual a actualizar:");
+		if (codigo == null)
+			return;
+
+		String codigoEquipo = JOptionPane.showInputDialog(null, "Ingrese nuevo código del equipo:");
+		if (codigoEquipo == null)
+			return;
+
+		Equipo equipo = empresa.getGestorGeneral().getGestorEquipos().buscarEquipoPorCodigo(codigoEquipo);
+		if (equipo == null) {
+			JOptionPane.showMessageDialog(null, "Equipo no encontrado.");
+			return;
+		}
+
+		String nuevasHoras = JOptionPane.showInputDialog(null, "Ingrese nuevas horas de trabajo:");
+		if (nuevasHoras == null || nuevasHoras.trim().isEmpty()) {
+			return;
+		}
+
+		long nuevasHorasLong = Long.parseLong(nuevasHoras);
+
+		boolean resultado = empresa.getGestorGeneral().getGestorReservasIndividuales()
+				.actualizarInformacionReservaIndividual(codigo, equipo, nuevasHorasLong);
+
+		if (resultado) {
+			JOptionPane.showMessageDialog(null, "Reserva individual actualizada exitosamente.");
+		} else {
+			JOptionPane.showMessageDialog(null, "Reserva individual no encontrada.");
+		}
+	}
+
+	private void eliminarReservaIndividual() {
+		String codigo = JOptionPane.showInputDialog(null, "Ingrese código de la reserva individual a eliminar:");
+		if (codigo == null)
+			return;
+
+		boolean resultado = empresa.getGestorGeneral().getGestorReservasIndividuales()
+				.eliminarReservaIndividual(codigo);
+
+		if (resultado) {
+			JOptionPane.showMessageDialog(null, "Reserva individual eliminada exitosamente.");
+		} else {
+			JOptionPane.showMessageDialog(null, "Reserva individual no encontrada.");
+		}
+	}
 }

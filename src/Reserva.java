@@ -6,7 +6,6 @@ public class Reserva {
 	private LocalDate fechaReserva;
 	private TurnoNombre turno;
 	private EstadoActualProceso estadoActualProceso;
-	private GestorReservasIndividuales gestorReservasIndividuales = new GestorReservasIndividuales();
 
 	public Reserva(String codigo, LocalDate fechaReserva, TurnoNombre turno,
 			EstadoActualProceso estadoActualProceso) {
@@ -56,14 +55,6 @@ public class Reserva {
 		this.estadoActualProceso = estadoActualProceso;
 	}
 
-	public GestorReservasIndividuales getGestorReservasIndividuales() {
-		return gestorReservasIndividuales;
-	}
-
-	public void setGestorReservasIndividuales(GestorReservasIndividuales gestorReservasIndividuales) {
-		this.gestorReservasIndividuales = gestorReservasIndividuales;
-	}
-
 	@Override
 	public String toString() {
 		String mensaje = "" + "\n";
@@ -72,7 +63,6 @@ public class Reserva {
 		mensaje += "cliente : " + (this.cliente != null ? this.cliente.toString() : "Sin cliente") + "\n";
 		mensaje += "fechaDeReserva : " + this.fechaReserva.toString() + "\n";
 		mensaje += "turno : " + this.turno.toString() + "\n";
-		mensaje += "estadoActualProceso : " + this.estadoActualProceso.toString() + "\n";
 		mensaje += "estadoActualProceso : " + this.estadoActualProceso.toString() + "\n";
 		mensaje += "===============" + "\n";
 
