@@ -33,6 +33,17 @@ public class ReservaIndividualPorEquipo {
 		this.horasDeTrabajo = horasDeTrabajo;
 	}
 
+	public long calcularCosto() {
+		if (equipo instanceof Camara) {
+			return ((Camara) equipo).calcularCosto(horasDeTrabajo);
+		} else if (equipo instanceof Dron) {
+			return ((Dron) equipo).calcularCosto(horasDeTrabajo);
+		} else if (equipo instanceof Iluminacion) {
+			return ((Iluminacion) equipo).calcularCosto(horasDeTrabajo);
+		}
+		return 0;
+	}
+
 	@Override
 	public String toString() {
 		String mensaje = "" + "\n";
@@ -40,6 +51,7 @@ public class ReservaIndividualPorEquipo {
 		mensaje += "codigo : " + this.codigo + "\n";
 		mensaje += "equipo : " + this.equipo + "\n";
 		mensaje += "horasDeTrabajo: " + this.horasDeTrabajo + "\n";
+		mensaje += "costo : " + this.calcularCosto() + "\n";
 		mensaje += "===============" + "\n";
 
 		return mensaje;

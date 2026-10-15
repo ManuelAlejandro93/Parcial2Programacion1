@@ -71,4 +71,25 @@ public class GestorReservas {
 		}
 	}
 
+	// En GestorReservas
+	public boolean equipoConfirmadoEnOtraReserva(String codigoEquipo, String codigoReservaActual) {
+		for (Reserva reserva : this.reservas) {
+			// No validar contra la misma reserva
+			if (reserva.getCodigo().equalsIgnoreCase(codigoReservaActual)) {
+				continue;
+			}
+
+			// Solo verificar reservas CONFIRMADAS
+			if (reserva.getEstadoActualProceso() != EstadoActualProceso.CONFIRMADA) {
+				continue;
+			}
+
+			// Buscar si el equipo está en esa reserva
+			if (reserva.equipoYaExisteEnReserva(codigoEquipo)) {
+				return true; // Equipo confirmado en otra reserva
+			}
+		}
+		return false; // Equipo no está confirmado en otra reserva
+	}
+
 }

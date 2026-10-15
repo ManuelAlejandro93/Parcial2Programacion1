@@ -26,8 +26,11 @@ public class Dron extends Equipo {
 		this.tieneBateriaAdicional = tieneBateriaAdicional;
 	}
 
-	// todo: hacer esto
-	public long calcularCosto() {
-		return 0;
+	public long calcularCosto(long horasDeTrabajo) {
+		long costo = horasDeTrabajo * 18000;
+		if (tieneBateriaAdicional) {
+			costo += 20000;
+		}
+		return costo;
 	}
 }

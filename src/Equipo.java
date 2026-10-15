@@ -54,6 +54,10 @@ public class Equipo {
 		this.condicionEquipo = condicionEquipo;
 	}
 
+	public boolean estaDisponible() {
+		return this.condicionEquipo == CondicionEquipo.DISPONIBLE;
+	}
+
 	@Override
 	public String toString() {
 		String mensaje = "" + "\n";

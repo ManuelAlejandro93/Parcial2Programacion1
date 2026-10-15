@@ -25,8 +25,11 @@ public class Camara extends Equipo {
 		this.tieneEstabilizador = tieneEstabilizador;
 	}
 
-	// todo: hacer esto
-	public long calcularCosto() {
-		return 0;
+	public long calcularCosto(long horasDeTrabajo) {
+		long costo = horasDeTrabajo * 12000;
+		if (tieneEstabilizador) {
+			costo += 15000;
+		}
+		return costo;
 	}
 }

@@ -6,6 +6,7 @@ public class Reserva {
 	private LocalDate fechaReserva;
 	private TurnoNombre turno;
 	private EstadoActualProceso estadoActualProceso;
+	private GestorReservasIndividuales gestorReservasIndividuales = new GestorReservasIndividuales();
 
 	public Reserva(String codigo, LocalDate fechaReserva, TurnoNombre turno,
 			EstadoActualProceso estadoActualProceso) {
@@ -55,6 +56,31 @@ public class Reserva {
 		this.estadoActualProceso = estadoActualProceso;
 	}
 
+	public GestorReservasIndividuales getGestorReservasIndividuales() {
+		return gestorReservasIndividuales;
+	}
+
+	public void setGestorReservasIndividuales(GestorReservasIndividuales gestorReservasIndividuales) {
+		this.gestorReservasIndividuales = gestorReservasIndividuales;
+	}
+
+	public long obtenerValorTotal() {
+		long valorTotal = 0;
+		for (ReservaIndividualPorEquipo reservaIndividual : gestorReservasIndividuales.getReservasIndividuales()) {
+			valorTotal += reservaIndividual.calcularCosto();
+		}
+		return valorTotal;
+	}
+
+	public boolean equipoYaExisteEnReserva(String codigoEquipo) {
+		for (ReservaIndividualPorEquipo reservaIndividual : gestorReservasIndividuales.getReservasIndividuales()) {
+			if (reservaIndividual.getEquipo().getCodigo().equalsIgnoreCase(codigoEquipo)) {
+				return true; // El equipo ya existe
+			}
+		}
+		return false; // El equipo no existe en la reserva
+	}
+
 	@Override
 	public String toString() {
 		String mensaje = "" + "\n";
@@ -64,6 +90,7 @@ public class Reserva {
 		mensaje += "fechaDeReserva : " + this.fechaReserva.toString() + "\n";
 		mensaje += "turno : " + this.turno.toString() + "\n";
 		mensaje += "estadoActualProceso : " + this.estadoActualProceso.toString() + "\n";
+		mensaje += "valorTotal : " + this.obtenerValorTotal() + "\n";
 		mensaje += "===============" + "\n";
 
 		return mensaje;

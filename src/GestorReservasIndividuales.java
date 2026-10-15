@@ -15,7 +15,29 @@ public class GestorReservasIndividuales {
 	}
 
 	// CREATE - añadir cualquiera. ✅
-	public boolean anadirReservaIndividual(ReservaIndividualPorEquipo nuevaReservaIndividual) {
+	// necesito varios inputs para validar varias cosas
+	public boolean anadirReservaIndividual(ReservaIndividualPorEquipo nuevaReservaIndividual,
+			Reserva reservaActual, GestorReservas gestorReservas) {
+
+		Equipo equipo = nuevaReservaIndividual.getEquipo();
+		String codigoEquipo = equipo.getCodigo();
+
+		// VALIDACIÓN 1: ¿Equipo disponible?
+		if (!equipo.estaDisponible()) {
+			return false;
+		}
+
+		// VALIDACIÓN 2: ¿Equipo ya existe en esta reserva?
+		if (reservaActual.equipoYaExisteEnReserva(codigoEquipo)) {
+			return false;
+		}
+
+		// VALIDACIÓN 3: ¿Equipo confirmado en otra reserva?
+		if (gestorReservas.equipoConfirmadoEnOtraReserva(codigoEquipo, reservaActual.getCodigo())) {
+			return false;
+		}
+
+		// Si pasa todas las validaciones
 		reservasIndividuales.add(nuevaReservaIndividual);
 		return true;
 	}

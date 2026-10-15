@@ -9,11 +9,6 @@ public class Iluminacion extends Equipo {
 		this.tieneControlInalambrico = tieneControlInalambrico;
 	}
 
-	// todo: hacer esto
-	public long calcularCosto() {
-		return 0;
-	}
-
 	public long getCantidadLuces() {
 		return cantidadLuces;
 	}
@@ -28,5 +23,13 @@ public class Iluminacion extends Equipo {
 
 	public void setTieneControlInalambrico(boolean tieneControlInalambrico) {
 		this.tieneControlInalambrico = tieneControlInalambrico;
+	}
+
+	public long calcularCosto(long horasDeTrabajo) {
+		long costo = horasDeTrabajo * 10000;
+		if (tieneControlInalambrico) {
+			costo += 12000;
+		}
+		return costo;
 	}
 }

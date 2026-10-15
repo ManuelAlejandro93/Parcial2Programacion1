@@ -762,6 +762,16 @@ public class Menu {
 	}
 
 	private void crearReservaIndividual() {
+		String codigoReserva = JOptionPane.showInputDialog(null, "Ingrese código de la reserva:");
+		if (codigoReserva == null)
+			return;
+
+		Reserva reserva = empresa.getGestorGeneral().getGestorReservas().buscarReservaPorCodigo(codigoReserva);
+		if (reserva == null) {
+			JOptionPane.showMessageDialog(null, "Reserva no encontrada.");
+			return;
+		}
+
 		String codigo = JOptionPane.showInputDialog(null, "Ingrese código de la reserva individual:");
 		if (codigo == null)
 			return;
@@ -786,28 +796,54 @@ public class Menu {
 		ReservaIndividualPorEquipo nuevaReservaIndividual = new ReservaIndividualPorEquipo(codigo, equipo,
 				horasDeTrabajoLong);
 
-		boolean resultado = empresa.getGestorGeneral().getGestorReservasIndividuales()
-				.anadirReservaIndividual(nuevaReservaIndividual);
+		boolean resultado = reserva.getGestorReservasIndividuales()
+				.anadirReservaIndividual(nuevaReservaIndividual, reserva,
+						empresa.getGestorGeneral().getGestorReservas());
 
-		if (resultado) {
-			JOptionPane.showMessageDialog(null, "Reserva individual creada exitosamente.");
+		if (!equipo.estaDisponible()) {
+			JOptionPane.showMessageDialog(null, "El equipo no está disponible.");
+		} else if (reserva.equipoYaExisteEnReserva(codigoEquipo)) {
+			JOptionPane.showMessageDialog(null, "El equipo ya existe en esta reserva.");
+		} else if (empresa.getGestorGeneral().getGestorReservas()
+				.equipoConfirmadoEnOtraReserva(codigoEquipo, codigoReserva)) {
+			JOptionPane.showMessageDialog(null, "El equipo ya está confirmado en otra reserva para esa fecha y turno.");
 		} else {
 			JOptionPane.showMessageDialog(null, "No se pudo crear la reserva individual.");
 		}
+
 	}
 
 	private void listarReservasIndividuales() {
-		String reservasIndividuales = empresa.getGestorGeneral().getGestorReservasIndividuales()
-				.mostrarTodasReservasIndividuales();
+		String codigoReserva = JOptionPane.showInputDialog(null, "Ingrese código de la reserva:");
+		if (codigoReserva == null)
+			return;
+
+		Reserva reserva = empresa.getGestorGeneral().getGestorReservas().buscarReservaPorCodigo(codigoReserva);
+		if (reserva == null) {
+			JOptionPane.showMessageDialog(null, "Reserva no encontrada.");
+			return;
+		}
+
+		String reservasIndividuales = reserva.getGestorReservasIndividuales().mostrarTodasReservasIndividuales();
 		JOptionPane.showMessageDialog(null, reservasIndividuales);
 	}
 
 	private void buscarReservaIndividualPorCodigo() {
-		String codigo = JOptionPane.showInputDialog(null, "Ingrese código:");
+		String codigoReserva = JOptionPane.showInputDialog(null, "Ingrese código de la reserva:");
+		if (codigoReserva == null)
+			return;
+
+		Reserva reserva = empresa.getGestorGeneral().getGestorReservas().buscarReservaPorCodigo(codigoReserva);
+		if (reserva == null) {
+			JOptionPane.showMessageDialog(null, "Reserva no encontrada.");
+			return;
+		}
+
+		String codigo = JOptionPane.showInputDialog(null, "Ingrese código de la reserva individual:");
 		if (codigo == null)
 			return;
 
-		ReservaIndividualPorEquipo reservaIndividual = empresa.getGestorGeneral().getGestorReservasIndividuales()
+		ReservaIndividualPorEquipo reservaIndividual = reserva.getGestorReservasIndividuales()
 				.buscarReservaIndividualPorCodigo(codigo);
 		if (reservaIndividual != null) {
 			JOptionPane.showMessageDialog(null, reservaIndividual.toString());
@@ -817,6 +853,16 @@ public class Menu {
 	}
 
 	private void actualizarReservaIndividual() {
+		String codigoReserva = JOptionPane.showInputDialog(null, "Ingrese código de la reserva:");
+		if (codigoReserva == null)
+			return;
+
+		Reserva reserva = empresa.getGestorGeneral().getGestorReservas().buscarReservaPorCodigo(codigoReserva);
+		if (reserva == null) {
+			JOptionPane.showMessageDialog(null, "Reserva no encontrada.");
+			return;
+		}
+
 		String codigo = JOptionPane.showInputDialog(null, "Ingrese código de la reserva individual a actualizar:");
 		if (codigo == null)
 			return;
@@ -838,7 +884,7 @@ public class Menu {
 
 		long nuevasHorasLong = Long.parseLong(nuevasHoras);
 
-		boolean resultado = empresa.getGestorGeneral().getGestorReservasIndividuales()
+		boolean resultado = reserva.getGestorReservasIndividuales()
 				.actualizarInformacionReservaIndividual(codigo, equipo, nuevasHorasLong);
 
 		if (resultado) {
@@ -849,12 +895,21 @@ public class Menu {
 	}
 
 	private void eliminarReservaIndividual() {
+		String codigoReserva = JOptionPane.showInputDialog(null, "Ingrese código de la reserva:");
+		if (codigoReserva == null)
+			return;
+
+		Reserva reserva = empresa.getGestorGeneral().getGestorReservas().buscarReservaPorCodigo(codigoReserva);
+		if (reserva == null) {
+			JOptionPane.showMessageDialog(null, "Reserva no encontrada.");
+			return;
+		}
+
 		String codigo = JOptionPane.showInputDialog(null, "Ingrese código de la reserva individual a eliminar:");
 		if (codigo == null)
 			return;
 
-		boolean resultado = empresa.getGestorGeneral().getGestorReservasIndividuales()
-				.eliminarReservaIndividual(codigo);
+		boolean resultado = reserva.getGestorReservasIndividuales().eliminarReservaIndividual(codigo);
 
 		if (resultado) {
 			JOptionPane.showMessageDialog(null, "Reserva individual eliminada exitosamente.");
