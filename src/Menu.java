@@ -1,7 +1,6 @@
 import javax.swing.JOptionPane;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 
 public class Menu {
 	private Empresa empresa;
@@ -20,6 +19,7 @@ public class Menu {
 					+ "2. Gestionar Operarios\n"
 					+ "3. Gestionar Clientes\n"
 					+ "4. Gestionar Funciones Especiales\n"
+					+ "5. Gestionar Reservas\n"
 					+ "0. Salir\n\n"
 					+ "Seleccione una opción:";
 
@@ -41,6 +41,9 @@ public class Menu {
 					break;
 				case "4":
 					menuFuncionesEspeciales();
+					break;
+				case "5":
+					menuReservas();
 					break;
 
 				case "0":
