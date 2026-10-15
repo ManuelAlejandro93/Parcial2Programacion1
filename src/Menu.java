@@ -489,7 +489,6 @@ public class Menu {
 			JOptionPane.showMessageDialog(null, "Cliente no encontrado.");
 		}
 	}
-	// ! 📌 Voy Acá 📌
 
 	// ==================== MENÚ FUNCIONES ESPECIALES ====================
 	private void menuFuncionesEspeciales() {
@@ -509,29 +508,9 @@ public class Menu {
 
 			switch (opcion) {
 				case "1":
-					crearProyecto();
+					configurarTurnosEnReserva();
 					break;
-				case "2":
-					listarProyectos();
-					break;
-				case "3":
-					buscarProyectoPorCodigo();
-					break;
-				case "4":
-					asignarDesarrolladorAProyecto();
-					break;
-				case "5":
-					agregarServicioAProyecto();
-					break;
-				case "6":
-					calcularValorTotalProyecto();
-					break;
-				case "7":
-					cambiarEstadoProyecto();
-					break;
-				case "8":
-					eliminarProyecto();
-					break;
+
 				case "9":
 					continuar = false;
 					break;
@@ -541,208 +520,47 @@ public class Menu {
 		}
 	}
 
-	private void crearProyecto() {
-		String codigo = JOptionPane.showInputDialog(null, "Ingrese código del proyecto:");
-		if (codigo == null)
-			return;
-
-		String documentoCliente = JOptionPane.showInputDialog(null, "Ingrese documento del cliente:");
-		if (documentoCliente == null)
-			return;
-
-		Cliente cliente = empresa.getGestorGeneral().getGestorClientes().buscarClientePorDocumentoLegal(documentoCliente);
-		if (cliente == null) {
-			JOptionPane.showMessageDialog(null, "Cliente no encontrado.");
-			return;
-		}
-
-		String fechaSolicitud = JOptionPane.showInputDialog(null, "Ingrese fecha de solicitud (yyyy-MM-dd):");
-		if (fechaSolicitud == null)
-			return;
-
-		String fechaInicio = JOptionPane.showInputDialog(null, "Ingrese fecha de inicio (yyyy-MM-dd):");
-		if (fechaInicio == null)
-			return;
-
-		String fechaEntrega = JOptionPane.showInputDialog(null, "Ingrese fecha de entrega (yyyy-MM-dd):");
-		if (fechaEntrega == null)
-			return;
-
-		String metodoPago = JOptionPane.showInputDialog(null,
-				"Ingrese método de pago (Tarjeta de crédito/Transferencia bancaria/Efectivo):");
-		if (metodoPago == null)
-			return;
-
-		try {
-			LocalDate fSolicitud = LocalDate.parse(fechaSolicitud, formato);
-			LocalDate fInicio = LocalDate.parse(fechaInicio, formato);
-			LocalDate fEntrega = LocalDate.parse(fechaEntrega, formato);
-
-			Proyecto nuevoProyecto = new Proyecto(codigo, fSolicitud, fInicio, fEntrega, metodoPago, cliente);
-			boolean resultado = empresa.getGestorGeneral().getGestorProyectos().crear(nuevoProyecto);
-
-			if (resultado) {
-				JOptionPane.showMessageDialog(null, "Proyecto creado exitosamente.");
-			} else {
-				JOptionPane.showMessageDialog(null, "No se pudo crear el proyecto. Límite alcanzado.");
-			}
-		} catch (DateTimeParseException e) {
-			JOptionPane.showMessageDialog(null, "Error: Formato de fecha inválido. Use yyyy-MM-dd");
-		} catch (IllegalArgumentException e) {
-			JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
-		}
+	// todo: hacer esto
+	private void configurarTurnosEnReserva() {
+		empresa.getGestorGeneral().getGestorFuncionesEspeciales().configurarTurnosEnReserva(null);
+		JOptionPane.showMessageDialog(null, "Opción no creada todavía.");
 	}
 
-	private void listarProyectos() {
-		String proyectos = empresa.getGestorGeneral().getGestorProyectos().mostrarProyectos();
-		JOptionPane.showMessageDialog(null, proyectos);
-	}
+	// ==================== MENÚ RESERVAS ====================
+	private void crearOperar() {
+		// private String nombre;✅
+		// private String identificacion;✅
+		// private String certificacion;✅
+		// private int experienciaAnios;
 
-	private void buscarProyectoPorCodigo() {
-		String codigo = JOptionPane.showInputDialog(null, "Ingrese código a buscar:");
-		if (codigo == null)
+		String nombre = JOptionPane.showInputDialog(null, "Ingrese nombre:");
+		if (nombre == null)
 			return;
 
-		Proyecto proyecto = empresa.getGestorGeneral().getGestorProyectos().buscarProyectoPorCodigo(codigo);
-		if (proyecto != null) {
-			JOptionPane.showMessageDialog(null, proyecto.toString());
-		} else {
-			JOptionPane.showMessageDialog(null, "Proyecto no encontrado.");
-		}
-	}
-
-	private void asignarDesarrolladorAProyecto() {
-		String codigoProyecto = JOptionPane.showInputDialog(null, "Ingrese código del proyecto:");
-		if (codigoProyecto == null)
+		String identificacion = JOptionPane.showInputDialog(null, "Ingrese identificacion:");
+		if (identificacion == null)
 			return;
 
-		Proyecto proyecto = empresa.getGestorGeneral().getGestorProyectos().buscarProyectoPorCodigo(codigoProyecto);
-		if (proyecto == null) {
-			JOptionPane.showMessageDialog(null, "Proyecto no encontrado.");
+		String certificacion = JOptionPane.showInputDialog(null, "Ingrese certificacion:");
+		if (certificacion == null)
+			return;
+
+		String aniosExperiencia = JOptionPane.showInputDialog(null, "Ingrese años de experiencia:");
+
+		if (aniosExperiencia == null || aniosExperiencia.trim().isEmpty()) {
 			return;
 		}
 
-		String codigoDesarrollador = JOptionPane.showInputDialog(null, "Ingrese código del desarrollador:");
-		if (codigoDesarrollador == null)
-			return;
+		Integer aniosExperienciaInt = Integer.parseInt(aniosExperiencia);
 
-		Desarrollador desarrollador = empresa.getGestorGeneral().getGestorDesarrolladores()
-				.buscarDesarrolladorPorCodigo(codigoDesarrollador);
-		if (desarrollador == null) {
-			JOptionPane.showMessageDialog(null, "Desarrollador no encontrado.");
-			return;
-		}
+		Operador nuevoOperador = new Operador(nombre, identificacion, certificacion, aniosExperienciaInt);
 
-		boolean resultado = proyecto.asignarDesarrollador(desarrollador);
-		if (resultado) {
-			JOptionPane.showMessageDialog(null, "Desarrollador asignado exitosamente.");
-		} else {
-			JOptionPane.showMessageDialog(null, "No se pudo asignar el desarrollador (no disponible o límite alcanzado).");
-		}
-	}
-
-	private void agregarServicioAProyecto() {
-		String codigoProyecto = JOptionPane.showInputDialog(null, "Ingrese código del proyecto:");
-		if (codigoProyecto == null)
-			return;
-
-		Proyecto proyecto = empresa.getGestorGeneral().getGestorProyectos().buscarProyectoPorCodigo(codigoProyecto);
-		if (proyecto == null) {
-			JOptionPane.showMessageDialog(null, "Proyecto no encontrado.");
-			return;
-		}
-
-		String codigoServicio = JOptionPane.showInputDialog(null, "Ingrese código del servicio:");
-		if (codigoServicio == null)
-			return;
-
-		ServicioAdicional servicio = empresa.getGestorGeneral().getGestorServicios()
-				.buscarServicioPorCodigo(codigoServicio);
-		if (servicio == null) {
-			JOptionPane.showMessageDialog(null, "Servicio no encontrado.");
-			return;
-		}
-
-		boolean resultado = proyecto.agregarServicio(servicio);
-		if (resultado) {
-			JOptionPane.showMessageDialog(null, "Servicio agregado exitosamente.");
-		} else {
-			JOptionPane.showMessageDialog(null, "No se pudo agregar el servicio (límite alcanzado).");
-		}
-	}
-
-	private void calcularValorTotalProyecto() {
-		String codigoProyecto = JOptionPane.showInputDialog(null, "Ingrese código del proyecto:");
-		if (codigoProyecto == null)
-			return;
-
-		Proyecto proyecto = empresa.getGestorGeneral().getGestorProyectos().buscarProyectoPorCodigo(codigoProyecto);
-		if (proyecto == null) {
-			JOptionPane.showMessageDialog(null, "Proyecto no encontrado.");
-			return;
-		}
-
-		double valorTotal = proyecto.calcularValorTotal();
-		JOptionPane.showMessageDialog(null, "Valor total del proyecto: $" + String.format("%.2f", valorTotal));
-	}
-
-	private void cambiarEstadoProyecto() {
-		String codigoProyecto = JOptionPane.showInputDialog(null, "Ingrese código del proyecto:");
-		if (codigoProyecto == null)
-			return;
-
-		String nuevoEstado = JOptionPane.showInputDialog(null,
-				"Ingrese nuevo estado (Pendiente/Confirmado/En curso/Finalizado/Cancelado):");
-		if (nuevoEstado == null)
-			return;
-
-		boolean resultado = empresa.getGestorGeneral().getGestorProyectos().cambiarEstadoProyecto(codigoProyecto,
-				nuevoEstado);
+		boolean resultado = empresa.getGestorGeneral().getGestorOperadores().anadirOperador(nuevoOperador);
 
 		if (resultado) {
-			JOptionPane.showMessageDialog(null, "Estado del proyecto actualizado exitosamente.");
+			JOptionPane.showMessageDialog(null, "Operador creado exitosamente.");
 		} else {
-			JOptionPane.showMessageDialog(null, "Proyecto no encontrado.");
-		}
-	}
-
-	private void eliminarProyecto() {
-		String codigoProyecto = JOptionPane.showInputDialog(null, "Ingrese código del proyecto a eliminar:");
-		if (codigoProyecto == null)
-			return;
-
-		boolean resultado = empresa.getGestorGeneral().getGestorProyectos().eliminarProyecto(codigoProyecto);
-
-		if (resultado) {
-			JOptionPane.showMessageDialog(null, "Proyecto eliminado exitosamente.");
-		} else {
-			JOptionPane.showMessageDialog(null, "Proyecto no encontrado.");
-		}
-	}
-
-	// ==================== MENÚ CONSULTA NÚMERO PERFECTO ====================
-	private void menuConsultarClientePerfecto() {
-		String telefono = JOptionPane.showInputDialog(null, "Ingrese el teléfono del cliente:");
-		if (telefono == null)
-			return;
-
-		String resultado = empresa.getGestorGeneral().consultarClientePorTelefonoYValidarPerfecto(telefono);
-		JOptionPane.showMessageDialog(null, resultado);
-	}
-
-	// ==================== MENÚ INGRESOS POR FECHA ====================
-	private void menuConsultarIngresosPorFecha() {
-		String fecha = JOptionPane.showInputDialog(null, "Ingrese la fecha (yyyy-MM-dd):");
-		if (fecha == null)
-			return;
-
-		try {
-			LocalDate fechaConsultada = LocalDate.parse(fecha, formato);
-			double ingresos = empresa.getGestorGeneral().consultarIngresosPorFecha(fechaConsultada);
-
-			JOptionPane.showMessageDialog(null, "Ingresos en la fecha " + fecha + ": $" + String.format("%.2f", ingresos));
-		} catch (DateTimeParseException e) {
-			JOptionPane.showMessageDialog(null, "Error: Formato de fecha inválido. Use yyyy-MM-dd");
+			JOptionPane.showMessageDialog(null, "No se pudo crear el Operador");
 		}
 	}
 }
