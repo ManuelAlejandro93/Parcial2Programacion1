@@ -81,6 +81,10 @@ public class Reserva {
 		return false; // El equipo no existe en la reserva
 	}
 
+	public boolean tieneEquipos() {
+		return gestorReservasIndividuales.getReservasIndividuales().size() > 0;
+	}
+
 	@Override
 	public String toString() {
 		String mensaje = "" + "\n";

@@ -570,6 +570,9 @@ public class Menu {
 					eliminarReserva();
 					break;
 				case "6":
+					confirmarReserva();
+					break;
+				case "7":
 					continuar = false;
 					break;
 				default:
@@ -716,6 +719,30 @@ public class Menu {
 		}
 	}
 
+	private void confirmarReserva() {
+		String codigoReserva = JOptionPane.showInputDialog(null, "Ingrese código de la reserva a confirmar:");
+		if (codigoReserva == null)
+			return;
+
+		Reserva reserva = empresa.getGestorGeneral().getGestorReservas().buscarReservaPorCodigo(codigoReserva);
+		if (reserva == null) {
+			JOptionPane.showMessageDialog(null, "Reserva no encontrada.");
+			return;
+		}
+
+		boolean resultado = empresa.getGestorGeneral().getGestorReservas().confirmarReserva(codigoReserva);
+
+		if (resultado) {
+			JOptionPane.showMessageDialog(null, "Reserva confirmada exitosamente.");
+		} else {
+			if (!reserva.tieneEquipos()) {
+				JOptionPane.showMessageDialog(null, "La reserva debe tener al menos un equipo para ser confirmada.");
+			} else {
+				JOptionPane.showMessageDialog(null, "No se pudo confirmar la reserva.");
+			}
+		}
+	}
+
 	// ==================== MENÚ RESERVAS INDIVIDUALES ====================
 	private void menuReservasIndividuales() {
 		boolean continuar = true;
@@ -800,7 +827,9 @@ public class Menu {
 				.anadirReservaIndividual(nuevaReservaIndividual, reserva,
 						empresa.getGestorGeneral().getGestorReservas());
 
-		if (!equipo.estaDisponible()) {
+		if (resultado) {
+			JOptionPane.showMessageDialog(null, "Reserva individual creada exitosamente.");
+		} else if (!equipo.estaDisponible()) {
 			JOptionPane.showMessageDialog(null, "El equipo no está disponible.");
 		} else if (reserva.equipoYaExisteEnReserva(codigoEquipo)) {
 			JOptionPane.showMessageDialog(null, "El equipo ya existe en esta reserva.");

@@ -92,4 +92,20 @@ public class GestorReservas {
 		return false; // Equipo no está confirmado en otra reserva
 	}
 
+	public boolean confirmarReserva(String codigoReserva) {
+		Reserva reserva = buscarReservaPorCodigo(codigoReserva);
+
+		if (reserva == null) {
+			return false; // Reserva no existe
+		}
+
+		// VALIDACIÓN 1: ¿Tiene al menos un equipo?
+		if (!reserva.tieneEquipos()) {
+			return false; // No tiene equipos
+		}
+
+		// Si pasa la validación, cambiar estado a CONFIRMADA
+		reserva.setEstadoActualProceso(EstadoActualProceso.CONFIRMADA);
+		return true;
+	}
 }
