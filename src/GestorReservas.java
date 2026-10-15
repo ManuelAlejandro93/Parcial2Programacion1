@@ -175,4 +175,16 @@ public class GestorReservas {
 		reserva.setEstadoActualProceso(nuevoEstado);
 		return true;
 	}
+
+	public boolean equipoEstaEnReservaConfirmadaParaFechaYTurno(String codigoEquipo, LocalDate fecha, TurnoNombre turno) {
+		for (Reserva reserva : this.reservas) {
+			if (reserva.getEstadoActualProceso() == EstadoActualProceso.CONFIRMADA &&
+					reserva.getFechaReserva().equals(fecha) &&
+					reserva.getTurno() == turno &&
+					reserva.equipoYaExisteEnReserva(codigoEquipo)) {
+				return true; // Equipo está confirmado
+			}
+		}
+		return false; // Equipo no está confirmado
+	}
 }

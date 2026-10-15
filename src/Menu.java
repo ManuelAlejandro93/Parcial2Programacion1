@@ -502,7 +502,8 @@ public class Menu {
 		while (continuar) {
 			String opciones = "=== GESTIÓN DE FUNCIONES ESPECIALES ===\n\n"
 					+ "1. Configurar Turnos en reservas\n"
-					+ "9. Volver al Menú Principal\n\n"
+					+ "2. Consultar Equipos Disponibles para Fecha y Turno\n"
+					+ "0. Volver al Menú Principal\n\n"
 					+ "Seleccione una opción:";
 
 			String opcion = JOptionPane.showInputDialog(null, opciones);
@@ -516,8 +517,10 @@ public class Menu {
 				case "1":
 					configurarTurnosEnReserva();
 					break;
-
-				case "9":
+				case "2":
+					consultarEquiposDisponiblesParaFechaYTurno();
+					break;
+				case "0":
 					continuar = false;
 					break;
 				default:
@@ -530,6 +533,22 @@ public class Menu {
 	private void configurarTurnosEnReserva() {
 		empresa.getGestorGeneral().getGestorFuncionesEspeciales().configurarTurnosEnReserva(null);
 		JOptionPane.showMessageDialog(null, "Opción no creada todavía.");
+	}
+
+	private void consultarEquiposDisponiblesParaFechaYTurno() {
+		String fechaStr = JOptionPane.showInputDialog(null, "Ingrese fecha (yyyy-MM-dd):");
+		if (fechaStr == null)
+			return;
+
+		LocalDate fecha = LocalDate.parse(fechaStr, formato);
+
+		TurnoNombre turno = ingresarTurno();
+
+		String equiposDisponibles = empresa.getGestorGeneral().getGestorEquipos()
+				.obtenerEquiposDisponiblesParaFechaYTurno(fecha, turno,
+						empresa.getGestorGeneral().getGestorReservas());
+
+		JOptionPane.showMessageDialog(null, equiposDisponibles);
 	}
 
 	// ==================== MENÚ RESERVAS ====================
@@ -1075,4 +1094,5 @@ public class Menu {
 			JOptionPane.showMessageDialog(null, "No se pudo cambiar el estado de la reserva.");
 		}
 	}
+
 }

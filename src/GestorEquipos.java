@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class GestorEquipos {
@@ -70,4 +71,35 @@ public class GestorEquipos {
 			return true;
 		}
 	}
+
+	public String obtenerEquiposDisponiblesParaFechaYTurno(LocalDate fecha, TurnoNombre turno,
+			GestorReservas gestorReservas) {
+		String resultado = "";
+
+		if (equipos == null || equipos.size() == 0) {
+			return "No hay equipos registrados.";
+		}
+
+		for (Equipo equipo : equipos) {
+			// VALIDACIÓN 1: ¿El equipo está disponible (condición)?
+			if (!equipo.estaDisponible()) {
+				continue; // Saltar este equipo
+			}
+
+			// VALIDACIÓN 2: ¿El equipo NO está en una reserva confirmada para esa
+			// fecha/turno?
+			if (gestorReservas.equipoEstaEnReservaConfirmadaParaFechaYTurno(equipo.getCodigo(), fecha, turno)) {
+				continue; // Saltar este equipo
+			}
+
+			resultado += equipo.toString() + "\n";
+		}
+
+		if (resultado.isEmpty()) {
+			return "No hay equipos disponibles para esa fecha y turno.";
+		}
+
+		return resultado;
+	}
+
 }
