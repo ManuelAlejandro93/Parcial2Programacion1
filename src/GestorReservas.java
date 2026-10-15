@@ -104,7 +104,12 @@ public class GestorReservas {
 			return false; // No tiene equipos
 		}
 
-		// Si pasa la validación, cambiar estado a CONFIRMADA
+		// VALIDACIÓN 2: ¿Tiene operador si tiene dron?
+		if (!reserva.tieneOperadorSiTieneDron()) {
+			return false; // Tiene dron pero no operador
+		}
+
+		// Si pasa las validaciones, cambiar estado a CONFIRMADA
 		reserva.setEstadoActualProceso(EstadoActualProceso.CONFIRMADA);
 		return true;
 	}

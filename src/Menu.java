@@ -737,6 +737,8 @@ public class Menu {
 		} else {
 			if (!reserva.tieneEquipos()) {
 				JOptionPane.showMessageDialog(null, "La reserva debe tener al menos un equipo para ser confirmada.");
+			} else if (!reserva.tieneOperadorSiTieneDron()) {
+				JOptionPane.showMessageDialog(null, "La reserva contiene un dron pero no tiene operador asignado.");
 			} else {
 				JOptionPane.showMessageDialog(null, "No se pudo confirmar la reserva.");
 			}

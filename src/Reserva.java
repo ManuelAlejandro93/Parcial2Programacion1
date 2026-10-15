@@ -6,6 +6,7 @@ public class Reserva {
 	private LocalDate fechaReserva;
 	private TurnoNombre turno;
 	private EstadoActualProceso estadoActualProceso;
+	private Operador operador;
 	private GestorReservasIndividuales gestorReservasIndividuales = new GestorReservasIndividuales();
 
 	public Reserva(String codigo, LocalDate fechaReserva, TurnoNombre turno,
@@ -64,6 +65,14 @@ public class Reserva {
 		this.gestorReservasIndividuales = gestorReservasIndividuales;
 	}
 
+	public Operador getOperador() {
+		return operador;
+	}
+
+	public void setOperador(Operador operador) {
+		this.operador = operador;
+	}
+
 	public long obtenerValorTotal() {
 		long valorTotal = 0;
 		for (ReservaIndividualPorEquipo reservaIndividual : gestorReservasIndividuales.getReservasIndividuales()) {
@@ -83,6 +92,18 @@ public class Reserva {
 
 	public boolean tieneEquipos() {
 		return gestorReservasIndividuales.getReservasIndividuales().size() > 0;
+	}
+
+	public boolean tieneOperadorSiTieneDron() {
+		// Buscar si hay algún dron en los equipos
+		for (ReservaIndividualPorEquipo reservaIndividual : gestorReservasIndividuales.getReservasIndividuales()) {
+			if (reservaIndividual.getEquipo() instanceof Dron) {
+				// Hay dron, verificar que tenga operador
+				return this.operador != null;
+			}
+		}
+		// No hay dron, la validación pasa
+		return true;
 	}
 
 	@Override
