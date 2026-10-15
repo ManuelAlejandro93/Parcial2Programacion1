@@ -148,4 +148,31 @@ public class GestorReservas {
 		reserva.setOperador(operador);
 		return true;
 	}
+
+	public boolean cambiarEstadoReserva(String codigoReserva, EstadoActualProceso nuevoEstado) {
+		Reserva reserva = buscarReservaPorCodigo(codigoReserva);
+
+		if (reserva == null) {
+			return false; // Reserva no existe
+		}
+
+		EstadoActualProceso estadoActual = reserva.getEstadoActualProceso();
+
+		// VALIDACIÓN: ¿La reserva está cancelada o finalizada?
+		if (estadoActual == EstadoActualProceso.CANCELADA ||
+				estadoActual == EstadoActualProceso.FINALIZADA) {
+			return false; // No puede cambiar de estado
+		}
+
+		// VALIDACIÓN: ¿La transición es válida?
+		// Solo permitir cambios a CANCELADA o FINALIZADA desde SOLICITADA o CONFIRMADA
+		if (nuevoEstado != EstadoActualProceso.CANCELADA &&
+				nuevoEstado != EstadoActualProceso.FINALIZADA) {
+			return false; // Solo se puede cambiar a CANCELADA o FINALIZADA
+		}
+
+		// Si pasa las validaciones, cambiar estado
+		reserva.setEstadoActualProceso(nuevoEstado);
+		return true;
+	}
 }

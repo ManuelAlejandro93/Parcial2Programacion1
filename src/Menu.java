@@ -546,7 +546,8 @@ public class Menu {
 					+ "6. Confirmar reserva\n"
 					+ "7. Asignar cliente a reserva\n"
 					+ "8. Asignar operador a reserva\n"
-					+ "9. Volver al Menú Principal\n\n"
+					+ "9. Cambiar estado de reserva\n"
+					+ "0. Volver al Menú Principal\n\n"
 					+ "Seleccione una opción:";
 
 			String opcion = JOptionPane.showInputDialog(null, opciones);
@@ -582,6 +583,9 @@ public class Menu {
 					asignarOperadorAReserva();
 					break;
 				case "9":
+					cambiarEstadoReserva();
+					break;
+				case "0":
 					continuar = false;
 					break;
 				default:
@@ -1020,6 +1024,55 @@ public class Menu {
 			JOptionPane.showMessageDialog(null, "Operador asignado exitosamente.");
 		} else {
 			JOptionPane.showMessageDialog(null, "No se pudo asignar el operador.");
+		}
+	}
+
+	private void cambiarEstadoReserva() {
+		String codigoReserva = JOptionPane.showInputDialog(null, "Ingrese código de la reserva:");
+		if (codigoReserva == null)
+			return;
+
+		Reserva reserva = empresa.getGestorGeneral().getGestorReservas().buscarReservaPorCodigo(codigoReserva);
+		if (reserva == null) {
+			JOptionPane.showMessageDialog(null, "Reserva no encontrada.");
+			return;
+		}
+
+		// Mini Menu para cambiar de estado actual.
+		String mensaje = "Estado actual: " + reserva.getEstadoActualProceso() + "\n\n"
+				+ "Seleccione nuevo estado:\n\n"
+				+ "1. CANCELADA\n"
+				+ "2. FINALIZADA\n\n";
+		String opcion = JOptionPane.showInputDialog(null, mensaje);
+
+		if (opcion == null)
+			return;
+
+		EstadoActualProceso nuevoEstado = null;
+
+		switch (opcion) {
+			case "1":
+				nuevoEstado = EstadoActualProceso.CANCELADA;
+				break;
+			case "2":
+				nuevoEstado = EstadoActualProceso.FINALIZADA;
+				break;
+			default:
+				JOptionPane.showMessageDialog(null, "Opción inválida.");
+				return;
+		}
+
+		boolean resultado = empresa.getGestorGeneral().getGestorReservas()
+				.cambiarEstadoReserva(codigoReserva, nuevoEstado);
+
+		if (resultado) {
+			JOptionPane.showMessageDialog(null, "Estado de la reserva cambiado exitosamente a " + nuevoEstado + ".");
+		} else if (reserva.getEstadoActualProceso() == EstadoActualProceso.CANCELADA ||
+				reserva.getEstadoActualProceso() == EstadoActualProceso.FINALIZADA) {
+			JOptionPane.showMessageDialog(null,
+					"La reserva ya está " + reserva.getEstadoActualProceso() + " y no puede cambiar de estado.");
+		} else {
+			JOptionPane.showMessageDialog(null, "No se pudo cambiar el estado de la reserva.");
 		}
 	}
 }
