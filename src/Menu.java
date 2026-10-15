@@ -411,9 +411,6 @@ public class Menu {
 					buscarClientePorCodigo();
 					break;
 				case "4":
-					actualizarCliente();
-					break;
-				case "5":
 					eliminarCliente();
 					break;
 				case "6":
@@ -479,73 +476,27 @@ public class Menu {
 		}
 	}
 
-	// ! 📌 Voy Acá 📌
-	private void actualizarCliente() {
-		String codigo = JOptionPane.showInputDialog(null, "Ingrese código del servicio:");
-		if (codigo == null)
-			return;
-
-		String nombre = JOptionPane.showInputDialog(null, "Ingrese nuevo nombre:");
-		if (nombre == null)
-			return;
-
-		String descripcion = JOptionPane.showInputDialog(null, "Ingrese nueva descripción:");
-		if (descripcion == null)
-			return;
-
-		String precio = JOptionPane.showInputDialog(null, "Ingrese nuevo precio:");
-		if (precio == null)
-			return;
-
-		String disponible = JOptionPane.showInputDialog(null, "¿Disponible? (true/false):");
-		if (disponible == null)
-			return;
-
-		try {
-			double precioServicio = Double.parseDouble(precio);
-			boolean estaDisponible = Boolean.parseBoolean(disponible);
-
-			boolean resultado = empresa.getGestorGeneral().getGestorServicios().actualizarServicio(codigo, nombre,
-					descripcion,
-					precioServicio, estaDisponible);
-
-			if (resultado) {
-				JOptionPane.showMessageDialog(null, "Servicio actualizado exitosamente.");
-			} else {
-				JOptionPane.showMessageDialog(null, "Servicio no encontrado.");
-			}
-		} catch (NumberFormatException e) {
-			JOptionPane.showMessageDialog(null, "Error: Ingrese números válidos.");
-		}
-	}
-
 	private void eliminarCliente() {
-		String codigo = JOptionPane.showInputDialog(null, "Ingrese código del servicio a eliminar:");
-		if (codigo == null)
+		String cedula = JOptionPane.showInputDialog(null, "Ingrese cédula del cliente a eliminar:");
+		if (cedula == null)
 			return;
 
-		boolean resultado = empresa.getGestorGeneral().getGestorServicios().eliminarServicio(codigo);
+		boolean resultado = empresa.getGestorGeneral().getGestorClientes().eliminarCliente(cedula);
 
 		if (resultado) {
-			JOptionPane.showMessageDialog(null, "Servicio eliminado exitosamente.");
+			JOptionPane.showMessageDialog(null, "Cliente eliminado exitosamente.");
 		} else {
-			JOptionPane.showMessageDialog(null, "Servicio no encontrado.");
+			JOptionPane.showMessageDialog(null, "Cliente no encontrado.");
 		}
 	}
+	// ! 📌 Voy Acá 📌
 
-	// ==================== MENÚ PROYECTOS ====================
+	// ==================== MENÚ FUNCIONES ESPECIALES ====================
 	private void menuFuncionesEspeciales() {
 		boolean continuar = true;
 		while (continuar) {
-			String opciones = "=== GESTIÓN DE PROYECTOS ===\n\n"
-					+ "1. Crear Proyecto\n"
-					+ "2. Listar Proyectos\n"
-					+ "3. Buscar Proyecto por Código\n"
-					+ "4. Asignar Desarrollador a Proyecto\n"
-					+ "5. Agregar Servicio a Proyecto\n"
-					+ "6. Calcular Valor Total del Proyecto\n"
-					+ "7. Cambiar Estado del Proyecto\n"
-					+ "8. Eliminar Proyecto\n"
+			String opciones = "=== GESTIÓN DE FUNCIONES ESPECIALES ===\n\n"
+					+ "1. Configurar Turnos en reservas\n"
 					+ "9. Volver al Menú Principal\n\n"
 					+ "Seleccione una opción:";
 
