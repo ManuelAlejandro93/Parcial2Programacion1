@@ -1,7 +1,8 @@
 public class App {
     public static void main(String[] args) throws Exception {
 
-        TurnoDisponible turnosDisponible = new TurnoDisponible();
+        TurnoDisponible turnosDisponible = new TurnoDisponible(TurnoNombre.MANANIA, TurnoNombre.NOCHE,
+                TurnoNombre.NOCHE);
 
         Empresa empresa = new Empresa("Sucursal1", "Sucursal1", "Barrio Los Quindos", turnosDisponible);
 
