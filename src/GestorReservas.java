@@ -118,4 +118,34 @@ public class GestorReservas {
 		reserva.setEstadoActualProceso(EstadoActualProceso.CONFIRMADA);
 		return true;
 	}
+
+	public boolean asignarClienteAReserva(String codigoReserva, Cliente cliente) {
+		Reserva reserva = buscarReservaPorCodigo(codigoReserva);
+
+		if (reserva == null) {
+			return false; // Reserva no existe
+		}
+
+		if (cliente == null) {
+			return false; // Cliente es nulo
+		}
+
+		reserva.setCliente(cliente);
+		return true;
+	}
+
+	public boolean asignarOperadorAReserva(String codigoReserva, Operador operador) {
+		Reserva reserva = buscarReservaPorCodigo(codigoReserva);
+
+		if (reserva == null) {
+			return false; // Reserva no existe
+		}
+
+		if (operador == null) {
+			return false; // Operador es nulo
+		}
+
+		reserva.setOperador(operador);
+		return true;
+	}
 }

@@ -543,7 +543,10 @@ public class Menu {
 					+ "3. Buscar reservas por codigo\n"
 					+ "4. Actualizar reserva\n"
 					+ "5. Eliminar reserva\n"
-					+ "6. Volver al Menú Principal\n\n"
+					+ "6. Confirmar reserva\n"
+					+ "7. Asignar cliente a reserva\n"
+					+ "8. Asignar operador a reserva\n"
+					+ "9. Volver al Menú Principal\n\n"
 					+ "Seleccione una opción:";
 
 			String opcion = JOptionPane.showInputDialog(null, opciones);
@@ -573,6 +576,12 @@ public class Menu {
 					confirmarReserva();
 					break;
 				case "7":
+					asignarClienteAReserva();
+					break;
+				case "8":
+					asignarOperadorAReserva();
+					break;
+				case "9":
 					continuar = false;
 					break;
 				default:
@@ -948,6 +957,69 @@ public class Menu {
 			JOptionPane.showMessageDialog(null, "Reserva individual eliminada exitosamente.");
 		} else {
 			JOptionPane.showMessageDialog(null, "Reserva individual no encontrada.");
+		}
+	}
+
+	private void asignarClienteAReserva() {
+		String codigoReserva = JOptionPane.showInputDialog(null, "Ingrese código de la reserva:");
+		if (codigoReserva == null)
+			return;
+
+		Reserva reserva = empresa.getGestorGeneral().getGestorReservas().buscarReservaPorCodigo(codigoReserva);
+		if (reserva == null) {
+			JOptionPane.showMessageDialog(null, "Reserva no encontrada.");
+			return;
+		}
+
+		String cedulaCliente = JOptionPane.showInputDialog(null, "Ingrese cédula del cliente:");
+		if (cedulaCliente == null)
+			return;
+
+		Cliente cliente = empresa.getGestorGeneral().getGestorClientes().buscarClientePorCedula(cedulaCliente);
+		if (cliente == null) {
+			JOptionPane.showMessageDialog(null, "Cliente no encontrado.");
+			return;
+		}
+
+		boolean resultado = empresa.getGestorGeneral().getGestorReservas().asignarClienteAReserva(codigoReserva, cliente);
+
+		if (resultado) {
+			JOptionPane.showMessageDialog(null, "Cliente asignado exitosamente.");
+		} else {
+			JOptionPane.showMessageDialog(null, "No se pudo asignar el cliente.");
+		}
+	}
+
+	private void asignarOperadorAReserva() {
+		String codigoReserva = JOptionPane.showInputDialog(null, "Ingrese código de la reserva:");
+		if (codigoReserva == null)
+			return;
+
+		Reserva reserva = empresa.getGestorGeneral().getGestorReservas().buscarReservaPorCodigo(codigoReserva);
+
+		if (reserva == null) {
+			JOptionPane.showMessageDialog(null, "Reserva no encontrada.");
+			return;
+		}
+
+		String identificacionOperador = JOptionPane.showInputDialog(null, "Ingrese identificación del operador:");
+		if (identificacionOperador == null)
+			return;
+
+		Operador operador = empresa.getGestorGeneral().getGestorOperadores()
+				.buscarOperadorPorIdentificacion(identificacionOperador);
+
+		if (operador == null) {
+			JOptionPane.showMessageDialog(null, "Operador no encontrado.");
+			return;
+		}
+
+		boolean resultado = empresa.getGestorGeneral().getGestorReservas().asignarOperadorAReserva(codigoReserva, operador);
+
+		if (resultado) {
+			JOptionPane.showMessageDialog(null, "Operador asignado exitosamente.");
+		} else {
+			JOptionPane.showMessageDialog(null, "No se pudo asignar el operador.");
 		}
 	}
 }
